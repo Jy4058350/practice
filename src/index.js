@@ -54,6 +54,8 @@ function init() {
   }
   animate();
   const { x, y } = getWorldPosition(rect, canvasRect);
+  mesh.position.x = x;
+  mesh.position.y = y;
 }
 
 function getWorldPosition(rect, canvasRect) {

@@ -71,13 +71,15 @@ function init() {
 
   function render() {
     requestAnimationFrame(render);
-    os.forEach((o) => {});
+    os.forEach((o) => {
+      scroll(o);
+    });
     world.renderer.render(world.scene, world.camera);
   }
   render();
 }
 
-function scroll() {}
+function scroll(o) {}
 
 function getWorldPosition(rect, canvasRect) {
   const x = rect.left + rect.width / 2 - canvasRect.width / 2;

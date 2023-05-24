@@ -591,10 +591,11 @@ function init() {
     const mesh = new (0, _three.Mesh)(geometry, material);
     mesh.position.z = 0;
     world.scene.add(mesh);
-    const div1 = document.querySelector("#div-1");
+    const els = document.querySelectorAll("[data-webgl]");
+    els.forEach((el)=>{
+        console.log(el);
+    });
     const rect = div1.getBoundingClientRect();
-    console.log(div1);
-    console.log(rect);
     function animate() {
         world.renderer.render(world.scene, world.camera);
         requestAnimationFrame(animate);

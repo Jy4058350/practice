@@ -37,25 +37,30 @@ function init() {
   world.camera = new PerspectiveCamera(fov, aspect, near, far);
   world.camera.position.z = cameraZ;
 
-  const geometry = new PlaneGeometry(100, 100);
-  const material = new MeshBasicMaterial({ color: 0xff0000 , transparent: true, opacity: 0.2});
-  const mesh = new Mesh(geometry, material);
-  mesh.position.z = 0;
-  world.scene.add(mesh);
+  
 
-  const div1 = document.querySelector("#div-1");
-  const rect = div1.getBoundingClientRect();
-  console.log(div1);
-  console.log(rect);
+  const els = document.querySelectorAll('[data-webgl]');
+  els.forEach(el => {
+    const rect = el.getBoundingClientRect();
+
+    const geometry = new PlaneGeometry(rect.width, rect.height, 1, 1);
+    const material = new MeshBasicMaterial({ color: 0xff0000 , transparent: true, opacity: 0.2});
+    const mesh = new Mesh(geometry, material);
+    mesh.position.z = 0;
+    world.scene.add(mesh);
+    
+    const { x, y } = getWorldPosition(rect, canvasRect);
+    mesh.position.x = x;
+    mesh.position.y = y;
+    
+    console.log(el);
+  });
 
   function animate() {
     world.renderer.render(world.scene, world.camera);
     requestAnimationFrame(animate);
   }
   animate();
-  const { x, y } = getWorldPosition(rect, canvasRect);
-  mesh.position.x = x;
-  mesh.position.y = y;
 }
 
 function getWorldPosition(rect, canvasRect) {

@@ -9,14 +9,33 @@
     <title>WebGL MyPractical</title>
   </head>
   <body>
-    <div id="div-1"></div>
-    <style>div {
-  width: 100px;
-  height: 100px;
+    <div data-webgl=""></div>
+    <section data-webgl=""></section>
+    <img data-webgl="" src="/2.6bb9359a.jpeg">
+    <style>[data-webgl] {
   opacity: .2;
   background-color: #ff0;
+}
+
+div {
+  width: 100px;
+  height: 100px;
   margin-top: 100px;
   margin-left: 200px;
+}
+
+section {
+  width: 200px;
+  height: 100px;
+  margin-top: 50px;
+  margin-left: 400px;
+}
+
+img {
+  width: 100px;
+  position: absolute;
+  top: 10px;
+  right: 100px;
 }
 
 body {

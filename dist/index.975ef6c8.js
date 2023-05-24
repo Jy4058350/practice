@@ -582,27 +582,28 @@ function init() {
     const fov = radian * (180 / Math.PI);
     world.camera = new (0, _three.PerspectiveCamera)(fov, aspect, near, far);
     world.camera.position.z = cameraZ;
-    const geometry = new (0, _three.PlaneGeometry)(100, 100);
-    const material = new (0, _three.MeshBasicMaterial)({
-        color: 0xff0000,
-        transparent: true,
-        opacity: 0.2
+    const els = document.querySelectorAll("[data-webgl]");
+    els.forEach((el)=>{
+        const rect = el.getBoundingClientRect();
+        const geometry = new (0, _three.PlaneGeometry)(rect.width, rect.height, 1, 1);
+        const material = new (0, _three.MeshBasicMaterial)({
+            color: 0xff0000,
+            transparent: true,
+            opacity: 0.2
+        });
+        const mesh = new (0, _three.Mesh)(geometry, material);
+        mesh.position.z = 0;
+        world.scene.add(mesh);
+        const { x , y  } = getWorldPosition(rect, canvasRect);
+        mesh.position.x = x;
+        mesh.position.y = y;
+        console.log(el);
     });
-    const mesh = new (0, _three.Mesh)(geometry, material);
-    mesh.position.z = 0;
-    world.scene.add(mesh);
-    const div1 = document.querySelector("#div-1");
-    const rect = div1.getBoundingClientRect();
-    console.log(div1);
-    console.log(rect);
     function animate() {
         world.renderer.render(world.scene, world.camera);
         requestAnimationFrame(animate);
     }
     animate();
-    const { x , y  } = getWorldPosition(rect, canvasRect);
-    mesh.position.x = x;
-    mesh.position.y = y;
 }
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;

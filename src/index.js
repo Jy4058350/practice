@@ -9,6 +9,7 @@ import {
 } from "three";
 
 const world = {};
+const os = [];
 
 init();
 function init() {
@@ -37,23 +38,35 @@ function init() {
   world.camera = new PerspectiveCamera(fov, aspect, near, far);
   world.camera.position.z = cameraZ;
 
-  
-
-  const els = document.querySelectorAll('[data-webgl]');
-  els.forEach(el => {
+  const els = document.querySelectorAll("[data-webgl]");
+  els.forEach((el) => {
     const rect = el.getBoundingClientRect();
 
     const geometry = new PlaneGeometry(rect.width, rect.height, 1, 1);
-    const material = new MeshBasicMaterial({ color: 0xff0000 , transparent: true, opacity: 0.2});
+    const material = new MeshBasicMaterial({
+      color: 0xff0000,
+      transparent: true,
+      opacity: 0.2,
+    });
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
-    world.scene.add(mesh);
     
     const { x, y } = getWorldPosition(rect, canvasRect);
     mesh.position.x = x;
     mesh.position.y = y;
     
-    console.log(el);
+    const o = {
+      mesh,
+      geometry,
+      material,
+      mesh,
+      $: {
+        el,
+      },
+    };
+    
+    world.scene.add(mesh);
+    os.push(o);
   });
 
   function render() {
@@ -62,6 +75,8 @@ function init() {
   }
   render();
 }
+
+function scroll() {}
 
 function getWorldPosition(rect, canvasRect) {
   const x = rect.left + rect.width / 2 - canvasRect.width / 2;

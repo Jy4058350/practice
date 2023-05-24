@@ -559,6 +559,7 @@ function hmrAccept(bundle, id) {
 },{}],"8lqZg":[function(require,module,exports) {
 var _three = require("three");
 const world = {};
+const os = [];
 init();
 function init() {
     const canvas = document.querySelector("#canvas");
@@ -593,11 +594,20 @@ function init() {
         });
         const mesh = new (0, _three.Mesh)(geometry, material);
         mesh.position.z = 0;
-        world.scene.add(mesh);
         const { x , y  } = getWorldPosition(rect, canvasRect);
         mesh.position.x = x;
         mesh.position.y = y;
-        console.log(el);
+        const o = {
+            mesh,
+            geometry,
+            material,
+            mesh,
+            $: {
+                el
+            }
+        };
+        world.scene.add(mesh);
+        os.push(o);
     });
     function render() {
         world.renderer.render(world.scene, world.camera);
@@ -605,6 +615,7 @@ function init() {
     }
     render();
 }
+function scroll() {}
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;
     const y = -rect.top - rect.height / 2 + canvasRect.height / 2;

@@ -38,7 +38,7 @@ function init() {
   world.camera.position.z = cameraZ;
 
   const geometry = new PlaneGeometry(100, 100);
-  const material = new MeshBasicMaterial({ color: 0xff0000 });
+  const material = new MeshBasicMaterial({ color: 0xff0000 , transparent: true, opacity: 0.2});
   const mesh = new Mesh(geometry, material);
   mesh.position.z = 0;
   world.scene.add(mesh);
@@ -59,7 +59,7 @@ function init() {
 }
 
 function getWorldPosition(rect, canvasRect) {
-  const x = rect.left + rect.width / 2 - canvasRect / 2;
-  const y = -rect.top - rect.height / 2 + canvasRect / 2;
+  const x = rect.left + rect.width / 2 - canvasRect.width / 2;
+  const y = -rect.top - rect.height / 2 + canvasRect.height / 2;
   return { x, y };
 }

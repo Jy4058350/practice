@@ -598,6 +598,15 @@ function init() {
         requestAnimationFrame(animate);
     }
     animate();
+    const { x , y  } = getWorldPosition(rect, canvasRect);
+}
+function getWorldPosition(rect, canvasRect) {
+    const x = rect.left + rect.width / 2 - canvasRect / 2;
+    const y = -rect.top - rect.height / 2 + canvasRect / 2;
+    return {
+        x,
+        y
+    };
 }
 
 },{"three":"ktPTu"}],"ktPTu":[function(require,module,exports) {

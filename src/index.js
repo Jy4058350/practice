@@ -43,15 +43,21 @@ function init() {
   mesh.position.z = 0;
   world.scene.add(mesh);
 
-const div1 = document.querySelector('#div-1');
-const rect = div1.getBoundingClientRect();
-console.log(div1);
-console.log(rect);
-
+  const div1 = document.querySelector("#div-1");
+  const rect = div1.getBoundingClientRect();
+  console.log(div1);
+  console.log(rect);
 
   function animate() {
     world.renderer.render(world.scene, world.camera);
     requestAnimationFrame(animate);
   }
   animate();
+  const { x, y } = getWorldPosition(rect, canvasRect);
+}
+
+function getWorldPosition(rect, canvasRect) {
+  const x = rect.left + rect.width / 2 - canvasRect / 2;
+  const y = -rect.top - rect.height / 2 + canvasRect / 2;
+  return { x, y };
 }

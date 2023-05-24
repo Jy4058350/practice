@@ -10,12 +10,11 @@ import {
 
 const world = {};
 const os = [];
+const canvas = document.querySelector("#canvas");
+const canvasRect = canvas.getBoundingClientRect();
 
 init();
 function init() {
-  const canvas = document.querySelector("#canvas");
-  const canvasRect = canvas.getBoundingClientRect();
-  // console.log(canvasRect);
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,

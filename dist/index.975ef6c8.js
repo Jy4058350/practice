@@ -563,18 +563,18 @@ const os = [];
 init();
 function init() {
     const canvas = document.querySelector("#canvas");
-    const canvasRect = canvas.getBoundingClientRect();
+    const canvasRect1 = canvas.getBoundingClientRect();
     // console.log(canvasRect);
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
         antialias: true
     });
-    world.renderer.setSize(canvasRect.width, canvasRect.height, false);
+    world.renderer.setSize(canvasRect1.width, canvasRect1.height, false);
     world.renderer.setPixelRatio(window.devicePixelRatio);
     world.renderer.setClearColor(0x000000, 0.0);
     world.scene = new (0, _three.Scene)();
-    const cameraWidth = canvasRect.width;
-    const cameraHeight = canvasRect.height;
+    const cameraWidth = canvasRect1.width;
+    const cameraHeight = canvasRect1.height;
     const near = 1500;
     const far = 4000;
     const aspect = cameraWidth / cameraHeight;
@@ -594,7 +594,7 @@ function init() {
         });
         const mesh = new (0, _three.Mesh)(geometry, material);
         mesh.position.z = 0;
-        const { x , y  } = getWorldPosition(rect, canvasRect);
+        const { x , y  } = getWorldPosition(rect, canvasRect1);
         mesh.position.x = x;
         mesh.position.y = y;
         const o = {
@@ -621,10 +621,11 @@ function init() {
 function scroll(o) {
     const { $: { el  } , mesh  } = o;
     const rect = el.getBoundingClientRect();
+    const { y  } = getWorldPosition(rect, canvasRect);
 }
-function getWorldPosition(rect, canvasRect) {
-    const x = rect.left + rect.width / 2 - canvasRect.width / 2;
-    const y = -rect.top - rect.height / 2 + canvasRect.height / 2;
+function getWorldPosition(rect, canvasRect1) {
+    const x = rect.left + rect.width / 2 - canvasRect1.width / 2;
+    const y = -rect.top - rect.height / 2 + canvasRect1.height / 2;
     return {
         x,
         y

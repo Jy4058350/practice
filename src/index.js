@@ -14,7 +14,7 @@ init();
 function init() {
   const canvas = document.querySelector("#canvas");
   const canvasRect = canvas.getBoundingClientRect();
-  console.log(canvasRect);
+  // console.log(canvasRect);
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,
@@ -42,6 +42,12 @@ function init() {
   const mesh = new Mesh(geometry, material);
   mesh.position.z = 0;
   world.scene.add(mesh);
+
+const div1 = document.querySelector('#div-1');
+const rect = div1.getBoundingClientRect();
+console.log(div1);
+console.log(rect);
+
 
   function animate() {
     world.renderer.render(world.scene, world.camera);

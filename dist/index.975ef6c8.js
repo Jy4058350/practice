@@ -610,8 +610,9 @@ function init() {
         os.push(o);
     });
     function render() {
-        world.renderer.render(world.scene, world.camera);
         requestAnimationFrame(render);
+        os.forEach((o)=>{});
+        world.renderer.render(world.scene, world.camera);
     }
     render();
 }

@@ -50,11 +50,11 @@ function init() {
     });
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
-    
+
     const { x, y } = getWorldPosition(rect, canvasRect);
     mesh.position.x = x;
     mesh.position.y = y;
-    
+
     const o = {
       mesh,
       geometry,
@@ -64,14 +64,15 @@ function init() {
         el,
       },
     };
-    
+
     world.scene.add(mesh);
     os.push(o);
   });
 
   function render() {
-    world.renderer.render(world.scene, world.camera);
     requestAnimationFrame(render);
+    os.forEach((o) => {});
+    world.renderer.render(world.scene, world.camera);
   }
   render();
 }

@@ -618,7 +618,9 @@ function init() {
     }
     render();
 }
-function scroll(o) {}
+function scroll(o) {
+    const { $: { el  } , mesh  } = o;
+}
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;
     const y = -rect.top - rect.height / 2 + canvasRect.height / 2;

@@ -9,12 +9,12 @@ import {
 } from "three";
 
 const world = {};
+const os = [];
+const canvas = document.querySelector("#canvas");
+const canvasRect = canvas.getBoundingClientRect();
 
 init();
 function init() {
-  const canvas = document.querySelector("#canvas");
-  const canvasRect = canvas.getBoundingClientRect();
-  // console.log(canvasRect);
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,
@@ -30,37 +30,63 @@ function init() {
   const near = 1500;
   const far = 4000;
   const aspect = cameraWidth / cameraHeight;
-  const cameraZ = 3000;
+  const cameraZ = 2000;
   const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
   const fov = radian * (180 / Math.PI);
 
   world.camera = new PerspectiveCamera(fov, aspect, near, far);
   world.camera.position.z = cameraZ;
 
-  
-
-  const els = document.querySelectorAll('[data-webgl]');
-  els.forEach(el => {
+  const els = document.querySelectorAll("[data-webgl]");
+  els.forEach((el) => {
     const rect = el.getBoundingClientRect();
 
     const geometry = new PlaneGeometry(rect.width, rect.height, 1, 1);
-    const material = new MeshBasicMaterial({ color: 0xff0000 , transparent: true, opacity: 0.2});
+    const material = new MeshBasicMaterial({
+      color: 0xff0000,
+      transparent: true,
+      opacity: 0.2,
+    });
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
-    world.scene.add(mesh);
-    
+
     const { x, y } = getWorldPosition(rect, canvasRect);
     mesh.position.x = x;
     mesh.position.y = y;
-    
-    console.log(el);
+
+    const o = {
+      mesh,
+      geometry,
+      material,
+      mesh,
+      $: {
+        el,
+      },
+    };
+
+    world.scene.add(mesh);
+    os.push(o);
   });
 
-  function animate() {
+  function render() {
+    requestAnimationFrame(render);
+    os.forEach((o) => {
+      scroll(o);
+    });
     world.renderer.render(world.scene, world.camera);
-    requestAnimationFrame(animate);
   }
-  animate();
+  render();
+}
+
+function scroll(o) {
+  const {
+    $: { el },
+    mesh,
+  } = o;
+  const rect = el.getBoundingClientRect();
+  const { y } = getWorldPosition(rect, canvasRect);
+  // console.log(rect.top, y);
+  mesh.position.y = y;
 }
 
 function getWorldPosition(rect, canvasRect) {

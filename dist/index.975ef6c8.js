@@ -559,11 +559,11 @@ function hmrAccept(bundle, id) {
 },{}],"8lqZg":[function(require,module,exports) {
 var _three = require("three");
 const world = {};
+const os = [];
+const canvas = document.querySelector("#canvas");
+const canvasRect = canvas.getBoundingClientRect();
 init();
 function init() {
-    const canvas = document.querySelector("#canvas");
-    const canvasRect = canvas.getBoundingClientRect();
-    // console.log(canvasRect);
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
         antialias: true
@@ -577,7 +577,7 @@ function init() {
     const near = 1500;
     const far = 4000;
     const aspect = cameraWidth / cameraHeight;
-    const cameraZ = 3000;
+    const cameraZ = 2000;
     const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
     const fov = radian * (180 / Math.PI);
     world.camera = new (0, _three.PerspectiveCamera)(fov, aspect, near, far);
@@ -593,17 +593,36 @@ function init() {
         });
         const mesh = new (0, _three.Mesh)(geometry, material);
         mesh.position.z = 0;
-        world.scene.add(mesh);
         const { x , y  } = getWorldPosition(rect, canvasRect);
         mesh.position.x = x;
         mesh.position.y = y;
-        console.log(el);
+        const o = {
+            mesh,
+            geometry,
+            material,
+            mesh,
+            $: {
+                el
+            }
+        };
+        world.scene.add(mesh);
+        os.push(o);
     });
-    function animate() {
+    function render() {
+        requestAnimationFrame(render);
+        os.forEach((o)=>{
+            scroll(o);
+        });
         world.renderer.render(world.scene, world.camera);
-        requestAnimationFrame(animate);
     }
-    animate();
+    render();
+}
+function scroll(o) {
+    const { $: { el  } , mesh  } = o;
+    const rect = el.getBoundingClientRect();
+    const { y  } = getWorldPosition(rect, canvasRect);
+    // console.log(rect.top, y);
+    mesh.position.y = y;
 }
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;

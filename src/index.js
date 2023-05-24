@@ -85,6 +85,7 @@ function scroll(o) {
   } = o;
   const rect = el.getBoundingClientRect();
   const { y } = getWorldPosition(rect, canvasRect);
+  mesh.position.y = y;
 }
 
 function getWorldPosition(rect, canvasRect) {

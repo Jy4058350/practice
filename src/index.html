@@ -11,15 +11,23 @@
   <body>
     <div data-webgl></div>
     <section data-webgl></section>
-    <img data-webgl src="./public/img/slider/2.jpeg"/>
+    <img data-webgl src="./public/img/slider/2.jpeg" />
     <style>
+      [data-webgl] {
+        background-color: yellow;
+        opacity: 0.2;
+      }
       div {
         margin-left: 200px;
         margin-top: 100px;
         width: 100px;
         height: 100px;
-        background-color: yellow;
-        opacity: 0.2;
+      }
+      section {
+        margin-left: 400px;
+        margin-top: 50px;
+        width: 200px;
+        height: 100px;
       }
       body {
         height: 200vh;

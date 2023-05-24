@@ -84,6 +84,7 @@ function scroll(o) {
     $: { el },
     mesh,
   } = o;
+  const rect = el.getBoundingClientRect();
 }
 
 function getWorldPosition(rect, canvasRect) {

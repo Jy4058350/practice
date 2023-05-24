@@ -30,7 +30,7 @@ function init() {
   const near = 1500;
   const far = 4000;
   const aspect = cameraWidth / cameraHeight;
-  const cameraZ = 3000;
+  const cameraZ = 2000;
   const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
   const fov = radian * (180 / Math.PI);
 
@@ -56,11 +56,11 @@ function init() {
     console.log(el);
   });
 
-  function animate() {
+  function render() {
     world.renderer.render(world.scene, world.camera);
-    requestAnimationFrame(animate);
+    requestAnimationFrame(render);
   }
-  animate();
+  render();
 }
 
 function getWorldPosition(rect, canvasRect) {

@@ -643,7 +643,8 @@ function scrollInit() {
     (0, _gsapDefault.default).to(el, {
         x: 300,
         scrollTrigger: {
-            trigger: el
+            trigger: el,
+            start: "center center"
         }
     });
 }

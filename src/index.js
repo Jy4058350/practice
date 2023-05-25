@@ -105,11 +105,13 @@ function scrollInit() {
   console.log(el);
 
   gsap.to(el, {
-    x: 300,
+    x: 1000,
     scrollTrigger: {
       trigger: el,
       start: 'center 70%',
+      end: 'center 30%',
       scrub: true,
+      
     },
   });
 }

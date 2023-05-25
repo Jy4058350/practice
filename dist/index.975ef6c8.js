@@ -641,10 +641,11 @@ function scrollInit() {
     const el = document.querySelector("[data-webgl]");
     console.log(el);
     (0, _gsapDefault.default).to(el, {
-        x: 300,
+        x: 1000,
         scrollTrigger: {
             trigger: el,
             start: "center 70%",
+            end: "center 30%",
             scrub: true
         }
     });

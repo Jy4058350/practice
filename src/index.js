@@ -8,6 +8,10 @@ import {
   WebGLRenderer,
 } from "three";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
 const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
@@ -99,6 +103,7 @@ function getWorldPosition(rect, canvasRect) {
 }
 
 function scrollInit() {
-  const el = document.querySelectorAll('[data-webgl]');
+  gsap.registerPlugin(ScrollTrigger);
+  const el = document.querySelector('[data-webgl]');
   console.log(el);
 }

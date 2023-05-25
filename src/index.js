@@ -125,10 +125,16 @@ function scrollInit() {
       end: "center 30%",
       scrub: true,
       pin: true,
+      onEnter() {
+        console.log("enter");
+      },
+      onLeave() {
+        console.log("leave");
+      }
     },
     onUpdate() {
       const rect = el.getBoundingClientRect();
-      const x = rect.left + 300;
+      const x = rect.left;
       const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
       os[0].mesh.position.x = pos.x;
     }

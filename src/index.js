@@ -11,7 +11,6 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-
 const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
@@ -59,7 +58,6 @@ function init() {
     mesh.position.y = y;
 
     const o = {
-      
       geometry,
       material,
       mesh,
@@ -72,8 +70,7 @@ function init() {
     os.push(o);
   });
 
-scrollInit();
-
+  scrollInit();
 
   function render() {
     requestAnimationFrame(render);
@@ -104,6 +101,13 @@ function getWorldPosition(rect, canvasRect) {
 
 function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
-  const el = document.querySelector('[data-webgl]');
+  const el = document.querySelector("[data-webgl]");
   console.log(el);
+
+  gsap.to(el, {
+    x: 300,
+    scrollTrigger: {
+      trigger: el,
+    },
+  });
 }

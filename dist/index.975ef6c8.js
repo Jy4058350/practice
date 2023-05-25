@@ -640,6 +640,12 @@ function scrollInit() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const el = document.querySelector("[data-webgl]");
     console.log(el);
+    (0, _gsapDefault.default).to(el, {
+        x: 300,
+        scrollTrigger: {
+            trigger: el
+        }
+    });
 }
 
 },{"three":"ktPTu","gsap":"juX9Y","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","gsap/ScrollTrigger":"hMdCG"}],"ktPTu":[function(require,module,exports) {

@@ -109,6 +109,7 @@ function scrollInit() {
     scrollTrigger: {
       trigger: el,
       start: 'center 70%',
+      scrub: true,
     },
   });
 }

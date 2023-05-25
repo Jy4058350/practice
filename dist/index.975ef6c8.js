@@ -644,7 +644,8 @@ function scrollInit() {
         x: 300,
         scrollTrigger: {
             trigger: el,
-            start: "center 70%"
+            start: "center 70%",
+            scrub: true
         }
     });
 }

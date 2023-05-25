@@ -108,7 +108,7 @@ function scrollInit() {
     x: 300,
     scrollTrigger: {
       trigger: el,
-      start: 'center center',
+      start: 'center 70%',
     },
   });
 }

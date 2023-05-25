@@ -626,6 +626,7 @@ function scroll(o) {
     const rect = el.getBoundingClientRect();
     const { y  } = getWorldPosition(rect, canvasRect);
     // console.log(rect.top, y);
+    // mesh.position.x = x;
     mesh.position.y = y;
 }
 function getWorldPosition(rect, canvasRect) {
@@ -640,6 +641,16 @@ function scrollInit() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const el = document.querySelector("[data-webgl]");
     console.log(el);
+    // gsap.to(os[0].mesh.position, {
+    //   x: pos.x,
+    //   scrollTrigger: {
+    //     trigger: el,
+    //     start: "center 68%",
+    //     end: "center 30%",
+    //     scrub: true,
+    //     // pin: true,
+    //   },
+    // });
     (0, _gsapDefault.default).to(el, {
         x: 300,
         scrollTrigger: {
@@ -648,6 +659,15 @@ function scrollInit() {
             end: "center 30%",
             scrub: true,
             pin: true
+        },
+        onUpdate () {
+            const rect = el.getBoundingClientRect();
+            const x = rect.left + 300;
+            const pos = getWorldPosition({
+                left: x,
+                width: rect.width
+            }, canvasRect);
+            os[0].mesh.position.x = pos.x;
         }
     });
 }

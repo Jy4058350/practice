@@ -648,13 +648,14 @@ function scrollInit() {
         width: rect.width
     }, canvasRect);
     //追加記述
+    const meshX = os[0].mesh.position.x;
     const animation = {
-        x: 0,
+        x: meshX,
         rotation: 0
     };
     (0, _gsapDefault.default).to(animation, {
         rotation: Math.PI * 2,
-        x: 600,
+        x: meshX + 600,
         scrollTrigger: {
             trigger: el,
             start: "center 80%",

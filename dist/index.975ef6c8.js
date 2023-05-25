@@ -652,7 +652,7 @@ function scrollInit() {
     });
 }
 
-},{"three":"ktPTu","gsap":"juX9Y","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","gsap/ScrollTrigger":"hMdCG"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","gsap":"juX9Y","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors

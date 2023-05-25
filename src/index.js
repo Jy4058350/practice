@@ -68,6 +68,9 @@ function init() {
     os.push(o);
   });
 
+scrollInit();
+
+
   function render() {
     requestAnimationFrame(render);
     os.forEach((o) => {
@@ -96,5 +99,6 @@ function getWorldPosition(rect, canvasRect) {
 }
 
 function scrollInit() {
-  
+  const el = document.querySelectorAll('[data-webgl]');
+  console.log(el);
 }

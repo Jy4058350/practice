@@ -607,6 +607,7 @@ function init() {
         world.scene.add(mesh);
         os.push(o);
     });
+    scrollInit();
     function render() {
         requestAnimationFrame(render);
         os.forEach((o)=>{
@@ -631,7 +632,10 @@ function getWorldPosition(rect, canvasRect) {
         y
     };
 }
-function scrollInit() {}
+function scrollInit() {
+    const el = document.querySelectorAll("[data-webgl]");
+    console.log(el);
+}
 
 },{"three":"ktPTu"}],"ktPTu":[function(require,module,exports) {
 /**

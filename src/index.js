@@ -130,11 +130,17 @@ function scrollInit() {
       },
       onLeave() {
         console.log("leave");
+      },
+      onEnterBack() {
+        console.log("enter");
+      },
+      onLeaveBack() {
+        console.log("leave");
       }
     },
     onUpdate() {
       const rect = el.getBoundingClientRect();
-      const x = rect.left;
+      const x = rect.left + 10;
       const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
       os[0].mesh.position.x = pos.x;
     }

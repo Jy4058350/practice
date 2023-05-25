@@ -651,18 +651,60 @@ function scrollInit() {
     //     // pin: true,
     //   },
     // });
-    (0, _gsapDefault.default).to(el, {
-        x: 300,
-        scrollTrigger: {
-            trigger: el,
-            start: "center 70%",
-            end: "center 30%",
-            scrub: true,
-            pin: true
+    // gsap.to(el, {
+    //   x: 300,
+    //   scrollTrigger: {
+    //     trigger: el,
+    //     start: "center 70%",
+    //     end: "center 30%",
+    //     scrub: true,
+    //     pin: true,
+    //     onEnter() {
+    //       console.log("enter");
+    //     },
+    //     onLeave() {
+    //       console.log("leave");
+    //     },
+    //     onEnterBack() {
+    //       console.log("enter");
+    //     },
+    //     onLeaveBack() {
+    //       console.log("leave");
+    //     },
+    //   },
+    //   onUpdate() {
+    //     const rect = el.getBoundingClientRect();
+    //     const x = rect.left + 10;
+    //     const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+    //     os[0].mesh.position.x = pos.x;
+    //   },
+    // });
+    const tl = (0, _gsapDefault.default).timeline();
+    tl.to(el, {
+        x: 600
+    });
+    (0, _scrollTrigger.ScrollTrigger).create({
+        animation: tl,
+        trigger: el,
+        start: "center 70%",
+        end: "center 30%",
+        scrub: true,
+        pin: true,
+        onEnter () {
+            console.log("enter");
+        },
+        onLeave () {
+            console.log("leave");
+        },
+        onEnterBack () {
+            console.log("enter");
+        },
+        onLeaveBack () {
+            console.log("leave");
         },
         onUpdate () {
             const rect = el.getBoundingClientRect();
-            const x = rect.left + 300;
+            const x = rect.left + 10;
             const pos = getWorldPosition({
                 left: x,
                 width: rect.width

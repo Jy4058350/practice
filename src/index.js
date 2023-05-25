@@ -105,68 +105,40 @@ function scrollInit() {
   const el = document.querySelector("[data-webgl]");
   console.log(el);
 
-  // gsap.to(os[0].mesh.position, {
-  //   x: pos.x,
-  //   scrollTrigger: {
-  //     trigger: el,
-  //     start: "center 68%",
-  //     end: "center 30%",
-  //     scrub: true,
-  //     // pin: true,
-  //   },
-  // });
-  // gsap.to(el, {
-  //   x: 300,
-  //   scrollTrigger: {
-  //     trigger: el,
-  //     start: "center 70%",
-  //     end: "center 30%",
-  //     scrub: true,
-  //     pin: true,
-  //     onEnter() {
-  //       console.log("enter");
-  //     },
-  //     onLeave() {
-  //       console.log("leave");
-  //     },
-  //     onEnterBack() {
-  //       console.log("enter");
-  //     },
-  //     onLeaveBack() {
-  //       console.log("leave");
-  //     },
-  //   },
-  //   onUpdate() {
-  //     const rect = el.getBoundingClientRect();
-  //     const x = rect.left + 10;
-  //     const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
-  //     os[0].mesh.position.x = pos.x;
-  //   },
-  // });
+  const rect = el.getBoundingClientRect();
+  const x = rect.left + 10;
+  const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
 
-  const tl = gsap.timeline();
-  tl.to(el, {
-    x: 600,
+  gsap.to(os[0].mesh.position, {
+    x: pos.x,
+    scrollTrigger: {
+      trigger: el,
+      start: "center 68%",
+      end: "center 30%",
+      scrub: true,
+      // pin: true,
+    },
   });
-
-  ScrollTrigger.create({
-    animation: tl,
-    trigger: el,
-    start: "center 70%",
-    end: "center 30%",
-    scrub: true,
-    pin: true,
-    onEnter() {
-      console.log("enter");
-    },
-    onLeave() {
-      console.log("leave");
-    },
-    onEnterBack() {
-      console.log("enter");
-    },
-    onLeaveBack() {
-      console.log("leave");
+  gsap.to(el, {
+    x: 300,
+    scrollTrigger: {
+      trigger: el,
+      start: "center 70%",
+      end: "center 30%",
+      scrub: true,
+      pin: true,
+      onEnter() {
+        console.log("enter");
+      },
+      onLeave() {
+        console.log("leave");
+      },
+      onEnterBack() {
+        console.log("enter");
+      },
+      onLeaveBack() {
+        console.log("leave");
+      },
     },
     onUpdate() {
       const rect = el.getBoundingClientRect();
@@ -175,4 +147,36 @@ function scrollInit() {
       os[0].mesh.position.x = pos.x;
     },
   });
+
+  // const tl = gsap.timeline();
+  // tl.to(el, {
+  //   x: 600,
+  // });
+
+  // ScrollTrigger.create({
+  //   animation: tl,
+  //   trigger: el,
+  //   start: "center 70%",
+  //   end: "center 30%",
+  //   scrub: true,
+  //   pin: true,
+  //   onEnter() {
+  //     console.log("enter");
+  //   },
+  //   onLeave() {
+  //     console.log("leave");
+  //   },
+  //   onEnterBack() {
+  //     console.log("enter");
+  //   },
+  //   onLeaveBack() {
+  //     console.log("leave");
+  //   },
+  //   onUpdate() {
+  //     const rect = el.getBoundingClientRect();
+  //     const x = rect.left + 10;
+  //     const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+  //     os[0].mesh.position.x = pos.x;
+  //   },
+  // });
 }

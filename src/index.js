@@ -112,12 +112,12 @@ function scrollInit() {
   //追加記述
 
   const animation = {
-    rotation: 0,
     x: 0,
+    rotation: 0,
   };
 
 gsap.to(animation, {
-  rotation: 360,
+  rotation: Math.PI * 2,
   x: 600,
   scrollTrigger: {
     trigger: el,
@@ -125,20 +125,26 @@ gsap.to(animation, {
     end: 'center 20%',
     scrub: true,
     pin: true,
-})
+  },
+  onUpdate() {
+    os[0].mesh.position.x = animation.x
+    os[0].mesh.rotation.z = animation.rotation
+}
+});
 
 
 
-  gsap.to(os[0].mesh.position, {
-    x: pos.x,
-    scrollTrigger: {
-      trigger: el,
-      start: "center 68%",
-      end: "center 30%",
-      scrub: true,
-      // pin: true,
-    },
-  });
+
+  // gsap.to(os[0].mesh.position, {
+  //   x: pos.x,
+  //   scrollTrigger: {
+  //     trigger: el,
+  //     start: "center 68%",
+  //     end: "center 30%",
+  //     scrub: true,
+  //     // pin: true,
+  //   },
+  // });
   gsap.to(el, {
     x: 300,
     scrollTrigger: {

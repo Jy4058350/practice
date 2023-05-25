@@ -649,22 +649,34 @@ function scrollInit() {
     }, canvasRect);
     //追加記述
     const animation = {
-        rotation: 0,
-        x: 0
+        x: 0,
+        rotation: 0
     };
     (0, _gsapDefault.default).to(animation, {
-        rotation: 360,
-        x: 600
-    });
-    (0, _gsapDefault.default).to(os[0].mesh.position, {
-        x: pos.x,
+        rotation: Math.PI * 2,
+        x: 600,
         scrollTrigger: {
             trigger: el,
-            start: "center 68%",
-            end: "center 30%",
-            scrub: true
+            start: "center 80%",
+            end: "center 20%",
+            scrub: true,
+            pin: true
+        },
+        onUpdate () {
+            os[0].mesh.position.x = animation.x;
+            os[0].mesh.rotation.z = animation.rotation;
         }
     });
+    // gsap.to(os[0].mesh.position, {
+    //   x: pos.x,
+    //   scrollTrigger: {
+    //     trigger: el,
+    //     start: "center 68%",
+    //     end: "center 30%",
+    //     scrub: true,
+    //     // pin: true,
+    //   },
+    // });
     (0, _gsapDefault.default).to(el, {
         x: 300,
         scrollTrigger: {

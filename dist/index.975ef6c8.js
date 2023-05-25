@@ -647,6 +647,15 @@ function scrollInit() {
         left: x,
         width: rect.width
     }, canvasRect);
+    //追加記述
+    const animation = {
+        rotation: 0,
+        x: 0
+    };
+    (0, _gsapDefault.default).to(animation, {
+        rotation: 360,
+        x: 600
+    });
     (0, _gsapDefault.default).to(os[0].mesh.position, {
         x: pos.x,
         scrollTrigger: {

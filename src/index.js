@@ -109,6 +109,26 @@ function scrollInit() {
   const x = rect.left + 10;
   const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
 
+  //追加記述
+
+  const animation = {
+    rotation: 0,
+    x: 0,
+  };
+
+gsap.to(animation, {
+  rotation: 360,
+  x: 600,
+  scrollTrigger: {
+    trigger: el,
+    start: 'center 80%',
+    end: 'center 20%',
+    scrub: true,
+    pin: true,
+})
+
+
+
   gsap.to(os[0].mesh.position, {
     x: pos.x,
     scrollTrigger: {

@@ -55,7 +55,7 @@ function init() {
     mesh.position.y = y;
 
     const o = {
-      mesh,
+      
       geometry,
       material,
       mesh,
@@ -93,4 +93,8 @@ function getWorldPosition(rect, canvasRect) {
   const x = rect.left + rect.width / 2 - canvasRect.width / 2;
   const y = -rect.top - rect.height / 2 + canvasRect.height / 2;
   return { x, y };
+}
+
+function scrollInit() {
+  
 }

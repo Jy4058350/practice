@@ -597,7 +597,6 @@ function init() {
         mesh.position.x = x;
         mesh.position.y = y;
         const o = {
-            mesh,
             geometry,
             material,
             mesh,
@@ -632,6 +631,7 @@ function getWorldPosition(rect, canvasRect) {
         y
     };
 }
+function scrollInit() {}
 
 },{"three":"ktPTu"}],"ktPTu":[function(require,module,exports) {
 /**

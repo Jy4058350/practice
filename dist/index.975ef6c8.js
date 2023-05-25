@@ -679,7 +679,12 @@ function scrollInit() {
     //     os[0].mesh.position.x = pos.x;
     //   },
     // });
+    const tl = (0, _gsapDefault.default).timeline();
+    tl.to(el, {
+        x: 600
+    });
     (0, _scrollTrigger.ScrollTrigger).create({
+        animation: tl,
         trigger: el,
         start: "center 70%",
         end: "center 30%",

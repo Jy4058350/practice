@@ -144,7 +144,13 @@ function scrollInit() {
   //   },
   // });
 
+  const tl = gsap.timeline();
+  tl.to(el, {
+    x: 600,
+  });
+
   ScrollTrigger.create({
+    animation: tl,
     trigger: el,
     start: "center 70%",
     end: "center 30%",
@@ -168,5 +174,5 @@ function scrollInit() {
       const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
       os[0].mesh.position.x = pos.x;
     },
-});
+  });
 }

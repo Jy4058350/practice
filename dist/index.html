@@ -9,15 +9,16 @@
     <title>WebGL MyPractical</title>
   </head>
   <body>
-    <div data-webgl=""></div>
-    <section data-webgl=""></section>
-    <img data-webgl="" src="/2.6bb9359a.jpeg">
-    <style>[data-webgl] {
+    <div id="page-cantainer">
+      <div class="div1" data-webgl=""></div>
+      <section data-webgl=""></section>
+      <img data-webgl="" src="/2.6bb9359a.jpeg">
+      <style>[data-webgl] {
   opacity: .2;
   background-color: #000;
 }
 
-div {
+.div1 {
   width: 100px;
   height: 100px;
   margin-top: 1500px;
@@ -32,17 +33,11 @@ section {
 }
 
 img {
-  width: 100px;
-  position: absolute;
-  top: 10px;
-  right: 100px;
-}
-
-body {
-  height: 200vh;
+  margin-top: 500px;
 }
 
 </style>
+    </div>
     <canvas id="canvas"></canvas>
   </body>
 </html>

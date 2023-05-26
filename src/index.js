@@ -9,6 +9,7 @@ import {
 } from "three";
 
 import gsap from "gsap";
+import SmoothScrollbar from "smooth-scrollbar";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const world = {};
@@ -102,107 +103,134 @@ function getWorldPosition(rect, canvasRect) {
 
 function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
-  const el = document.querySelector("[data-webgl]");
-  console.log(el);
 
-  const rect = el.getBoundingClientRect();
-  const x = rect.left + 10;
-  const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+  const pageContainer = document.querySelector("#page-container");
+  SmoothScrollbar.init(pageContainer);
 
-  //追加記述
-const meshX = os[0].mesh.position.x;
-  const animation = {
-    x: meshX,
-    rotation: 0,
-  };
+  // 3rd party library setup:
+  const bodyScrollBar = Scrollbar.init(document.body, {
+    damping: 0.1,
+    delegateTo: document,
+  });
 
-gsap.to(animation, {
-  rotation: Math.PI * 2,
-  x: meshX + 600,
-  scrollTrigger: {
-    trigger: el,
-    start: 'center 80%',
-    end: 'center 20%',
-    scrub: true,
-    pin: true,
-  },
-  onUpdate() {
-    os[0].mesh.position.x = animation.x
-    os[0].mesh.rotation.z = animation.rotation
-}
-});
-
-
-
-
-  // gsap.to(os[0].mesh.position, {
-  //   x: pos.x,
-  //   scrollTrigger: {
-  //     trigger: el,
-  //     start: "center 68%",
-  //     end: "center 30%",
-  //     scrub: true,
-  //     // pin: true,
-  //   },
-  // });
-  gsap.to(el, {
-    x: 300,
-    scrollTrigger: {
-      trigger: el,
-      start: "center 70%",
-      end: "center 30%",
-      scrub: true,
-      pin: true,
-      onEnter() {
-        console.log("enter");
-      },
-      onLeave() {
-        console.log("leave");
-      },
-      onEnterBack() {
-        console.log("enter");
-      },
-      onLeaveBack() {
-        console.log("leave");
-      },
+  // Tell ScrollTrigger to use these proxy getter/setter methods for the "body" element:
+  ScrollTrigger.scrollerProxy(document.body, {
+    scrollTop(value) {
+      if (arguments.length) {
+        bodyScrollBar.scrollTop = value; // setter
+      }
+      return bodyScrollBar.scrollTop; // getter
     },
-    onUpdate() {
-      const rect = el.getBoundingClientRect();
-      const x = rect.left + 10;
-      const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
-      os[0].mesh.position.x = pos.x;
+    getBoundingClientRect() {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
     },
   });
 
-  // const tl = gsap.timeline();
-  // tl.to(el, {
-  //   x: 600,
-  // });
+  // when the smooth scroller updates, tell ScrollTrigger to update() too:
+  bodyScrollBar.addListener(ScrollTrigger.update);
 
-  // ScrollTrigger.create({
-  //   animation: tl,
-  //   trigger: el,
-  //   start: "center 70%",
-  //   end: "center 30%",
-  //   scrub: true,
-  //   pin: true,
-  //   onEnter() {
-  //     console.log("enter");
-  //   },
-  //   onLeave() {
-  //     console.log("leave");
-  //   },
-  //   onEnterBack() {
-  //     console.log("enter");
-  //   },
-  //   onLeaveBack() {
-  //     console.log("leave");
-  //   },
-  //   onUpdate() {
-  //     const rect = el.getBoundingClientRect();
-  //     const x = rect.left + 10;
-  //     const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
-  //     os[0].mesh.position.x = pos.x;
-  //   },
-  // });
+  const el = document.querySelector("[data-webgl]");
+
+  //   const rect = el.getBoundingClientRect();
+  //   const x = rect.left + 10;
+  //   const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+
+  //   //追加記述
+  //   const meshX = os[0].mesh.position.x;
+  //   const animation = {
+  //     x: meshX,
+  //     rotation: 0,
+  //   };
+
+  //   gsap.to(animation, {
+  //     rotation: Math.PI * 2,
+  //     x: meshX + 600,
+  //     scrollTrigger: {
+  //       trigger: el,
+  //       start: "center 80%",
+  //       end: "center 20%",
+  //       scrub: true,
+  //       pin: true,
+  //     },
+  //     onUpdate() {
+  //       os[0].mesh.position.x = animation.x;
+  //       os[0].mesh.rotation.z = animation.rotation;
+  //     },
+  //   });
+
+  //   // gsap.to(os[0].mesh.position, {
+  //   //   x: pos.x,
+  //   //   scrollTrigger: {
+  //   //     trigger: el,
+  //   //     start: "center 68%",
+  //   //     end: "center 30%",
+  //   //     scrub: true,
+  //   //     // pin: true,
+  //   //   },
+  //   // });
+  //   gsap.to(el, {
+  //     x: 300,
+  //     scrollTrigger: {
+  //       trigger: el,
+  //       start: "center 70%",
+  //       end: "center 30%",
+  //       scrub: true,
+  //       pin: true,
+  //       onEnter() {
+  //         console.log("enter");
+  //       },
+  //       onLeave() {
+  //         console.log("leave");
+  //       },
+  //       onEnterBack() {
+  //         console.log("enter");
+  //       },
+  //       onLeaveBack() {
+  //         console.log("leave");
+  //       },
+  //     },
+  //     onUpdate() {
+  //       const rect = el.getBoundingClientRect();
+  //       const x = rect.left + 10;
+  //       const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+  //       os[0].mesh.position.x = pos.x;
+  //     },
+  //   });
+
+  //   // const tl = gsap.timeline();
+  //   // tl.to(el, {
+  //   //   x: 600,
+  //   // });
+
+  //   // ScrollTrigger.create({
+  //   //   animation: tl,
+  //   //   trigger: el,
+  //   //   start: "center 70%",
+  //   //   end: "center 30%",
+  //   //   scrub: true,
+  //   //   pin: true,
+  //   //   onEnter() {
+  //   //     console.log("enter");
+  //   //   },
+  //   //   onLeave() {
+  //   //     console.log("leave");
+  //   //   },
+  //   //   onEnterBack() {
+  //   //     console.log("enter");
+  //   //   },
+  //   //   onLeaveBack() {
+  //   //     console.log("leave");
+  //   //   },
+  //   //   onUpdate() {
+  //   //     const rect = el.getBoundingClientRect();
+  //   //     const x = rect.left + 10;
+  //   //     const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+  //   //     os[0].mesh.position.x = pos.x;
+  //   //   },
+  //   // });
 }

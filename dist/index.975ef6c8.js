@@ -643,8 +643,29 @@ function scrollInit() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const pageContainer = document.querySelector("#page-container");
     (0, _smoothScrollbarDefault.default).init(pageContainer);
+    // 3rd party library setup:
+    const bodyScrollBar = Scrollbar.init(document.body, {
+        damping: 0.1,
+        delegateTo: document
+    });
+    // Tell ScrollTrigger to use these proxy getter/setter methods for the "body" element:
+    (0, _scrollTrigger.ScrollTrigger).scrollerProxy(document.body, {
+        scrollTop (value) {
+            if (arguments.length) bodyScrollBar.scrollTop = value; // setter
+            return bodyScrollBar.scrollTop; // getter
+        },
+        getBoundingClientRect () {
+            return {
+                top: 0,
+                left: 0,
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+        }
+    });
+    // when the smooth scroller updates, tell ScrollTrigger to update() too:
+    bodyScrollBar.addListener((0, _scrollTrigger.ScrollTrigger).update);
     const el = document.querySelector("[data-webgl]");
-    console.log(el);
 //   const rect = el.getBoundingClientRect();
 //   const x = rect.left + 10;
 //   const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);

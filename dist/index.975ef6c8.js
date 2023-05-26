@@ -652,18 +652,13 @@ function scrollInit() {
         scrollTop (value) {
             if (arguments.length) bodyScrollBar.scrollTop = value; // setter
             return bodyScrollBar.scrollTop; // getter
-        },
-        getBoundingClientRect () {
-            return {
-                top: 0,
-                left: 0,
-                width: window.innerWidth,
-                height: window.innerHeight
-            };
         }
     });
     // when the smooth scroller updates, tell ScrollTrigger to update() too:
     bodyScrollBar.addListener((0, _scrollTrigger.ScrollTrigger).update);
+    (0, _scrollTrigger.ScrollTrigger).defaults({
+        scroller: pageContainer
+    });
     const el = document.querySelector("[data-webgl]");
 //   const rect = el.getBoundingClientRect();
 //   const x = rect.left + 10;

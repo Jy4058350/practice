@@ -120,18 +120,22 @@ function scrollInit() {
       }
       return bodyScrollBar.scrollTop; // getter
     },
-    getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
+    // getBoundingClientRect() {
+    //   return {
+    //     top: 0,
+    //     left: 0,
+    //     width: window.innerWidth,
+    //     height: window.innerHeight,
+    //   };
+    // },
   });
 
   // when the smooth scroller updates, tell ScrollTrigger to update() too:
   bodyScrollBar.addListener(ScrollTrigger.update);
+
+  ScrollTrigger.defaults({
+    scroller: pageContainer
+  });
 
   const el = document.querySelector("[data-webgl]");
 

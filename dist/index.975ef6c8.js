@@ -644,12 +644,11 @@ function scrollInit() {
     const pageContainer = document.querySelector("#page-container");
     (0, _smoothScrollbarDefault.default).init(pageContainer);
     // 3rd party library setup:
-    const bodyScrollBar = Scrollbar.init(document.body, {
-        damping: 0.1,
+    const bodyScrollBar = Scrollbar.init(pageContainer, {
         delegateTo: document
     });
     // Tell ScrollTrigger to use these proxy getter/setter methods for the "body" element:
-    (0, _scrollTrigger.ScrollTrigger).scrollerProxy(document.body, {
+    (0, _scrollTrigger.ScrollTrigger).scrollerProxy(pageContainer, {
         scrollTop (value) {
             if (arguments.length) bodyScrollBar.scrollTop = value; // setter
             return bodyScrollBar.scrollTop; // getter

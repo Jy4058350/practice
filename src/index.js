@@ -105,7 +105,7 @@ function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
 
   const pageContainer = document.querySelector("#page-container");
-  SmoothScrollbar.init(pageContainer);
+  // SmoothScrollbar.init(pageContainer);
 
   // 3rd party library setup:
   const bodyScrollBar = Scrollbar.init(pageContainer, {

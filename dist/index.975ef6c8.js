@@ -642,7 +642,7 @@ function getWorldPosition(rect, canvasRect) {
 function scrollInit() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const pageContainer = document.querySelector("#page-container");
-    (0, _smoothScrollbarDefault.default).init(pageContainer);
+    // SmoothScrollbar.init(pageContainer);
     // 3rd party library setup:
     const bodyScrollBar = Scrollbar.init(pageContainer, {
         delegateTo: document

@@ -9,7 +9,7 @@ import {
 } from "three";
 
 import gsap from "gsap";
-import SmoothScrollbar from "smooth-scrollbar";
+import Scrollbar from "smooth-scrollbar";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const world = {};
@@ -89,7 +89,7 @@ function scroll(o) {
     mesh,
   } = o;
   const rect = el.getBoundingClientRect();
-  const { y } = getWorldPosition(rect, canvasRect);
+  const { x, y } = getWorldPosition(rect, canvasRect);
   // console.log(rect.top, y);
   // mesh.position.x = x;
   mesh.position.y = y;
@@ -105,63 +105,63 @@ function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
 
   const pageContainer = document.querySelector("#page-container");
-  SmoothScrollbar.init(pageContainer);
+  // SmoothScrollbar.init(pageContainer);
 
-  // 3rd party library setup:
-  const bodyScrollBar = Scrollbar.init(document.body, {
-    damping: 0.1,
+  const scrollBar = Scrollbar.init(pageContainer, {
     delegateTo: document,
   });
 
-  // Tell ScrollTrigger to use these proxy getter/setter methods for the "body" element:
-  ScrollTrigger.scrollerProxy(document.body, {
+  ScrollTrigger.scrollerProxy(pageContainer, {
     scrollTop(value) {
       if (arguments.length) {
-        bodyScrollBar.scrollTop = value; // setter
+        scrollBar.scrollTop = value; // setter
       }
-      return bodyScrollBar.scrollTop; // getter
+      return scrollBar.scrollTop; // getter
     },
-    getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
+    // getBoundingClientRect() {
+    //   return {
+    //     top: 0,
+    //     left: 0,
+    //     width: window.innerWidth,
+    //     height: window.innerHeight,
+    //   };
+    // },
   });
 
-  // when the smooth scroller updates, tell ScrollTrigger to update() too:
-  bodyScrollBar.addListener(ScrollTrigger.update);
+  scrollBar.addListener(ScrollTrigger.update);
+
+  ScrollTrigger.defaults({
+    scroller: pageContainer,
+  });
 
   const el = document.querySelector("[data-webgl]");
 
-  //   const rect = el.getBoundingClientRect();
-  //   const x = rect.left + 10;
-  //   const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+  // const rect = el.getBoundingClientRect();
+  // const x = rect.left + 10;
+  // const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
 
-  //   //追加記述
-  //   const meshX = os[0].mesh.position.x;
-  //   const animation = {
-  //     x: meshX,
-  //     rotation: 0,
-  //   };
+  //追加記述
+  const meshX = os[0].mesh.position.x;
+  const animation = {
+    rotation: 0,
+    x: meshX,
+  };
 
-  //   gsap.to(animation, {
-  //     rotation: Math.PI * 2,
-  //     x: meshX + 600,
-  //     scrollTrigger: {
-  //       trigger: el,
-  //       start: "center 80%",
-  //       end: "center 20%",
-  //       scrub: true,
-  //       pin: true,
-  //     },
-  //     onUpdate() {
-  //       os[0].mesh.position.x = animation.x;
-  //       os[0].mesh.rotation.z = animation.rotation;
-  //     },
-  //   });
+  gsap.to(animation, {
+    rotation: Math.PI * 2,
+    x: meshX + 600,
+    scrollTrigger: {
+      trigger: el,
+      start: "center 80%",
+      end: "center 20%",
+      scrub: true,
+      pin: true,
+    },
+    onUpdate() {
+      os[0].mesh.position.x = animation.x;
+      os[0].mesh.rotation.z = animation.rotation;
+    },
+  });
 
   //   // gsap.to(os[0].mesh.position, {
   //   //   x: pos.x,

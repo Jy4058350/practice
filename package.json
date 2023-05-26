@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "parcel": "^2.8.3",
+    "smooth-scrollbar": "^8.8.3",
     "three": "^0.152.2"
   }
 }

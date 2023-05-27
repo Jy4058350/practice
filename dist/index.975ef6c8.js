@@ -758,7 +758,8 @@ function bindResizeEvent() {
         timerId = setTimeout(()=>{
             console.log("resize");
             const newCanvasRect = canvas.getBoundingClientRect();
-        // canvasサイズの変更
+            // canvasサイズの変更
+            world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
         // meshの位置の再計算
         // cameraの位置の再計算
         }, 500);

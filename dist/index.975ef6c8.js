@@ -639,6 +639,7 @@ function resize(o, newCanvasRect) {
     // console.log(rect.top, y);
     mesh.position.x = x;
     mesh.position.y = y;
+//大きさの変更
 }
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;
@@ -768,7 +769,10 @@ function bindResizeEvent() {
             const newCanvasRect = canvas.getBoundingClientRect();
             // canvasサイズの変更
             world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
-        // meshの位置の再計算
+            // meshの位置の再計算
+            os.forEach((o)=>{
+                resize(o, newCanvasRect);
+            });
         // cameraの位置の再計算
         }, 500);
     });

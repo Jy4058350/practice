@@ -18,6 +18,9 @@ const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
 
 init();
+
+
+
 function init() {
   world.renderer = new WebGLRenderer({
     canvas,
@@ -72,6 +75,7 @@ function init() {
   });
 
   scrollInit();
+  bindResizeEvent();
 
   function render() {
     requestAnimationFrame(render);
@@ -141,27 +145,27 @@ function scrollInit() {
   // const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
 
   //追加記述
-  const meshX = os[0].mesh.position.x;
-  const animation = {
-    rotation: 0,
-    x: meshX,
-  };
+  // const meshX = os[0].mesh.position.x;
+  // const animation = {
+  //   rotation: 0,
+  //   x: meshX,
+  // };
 
-  gsap.to(animation, {
-    rotation: Math.PI * 2,
-    x: meshX + 600,
-    scrollTrigger: {
-      trigger: el,
-      start: "center 80%",
-      end: "center 20%",
-      scrub: true,
-      pin: true,
-    },
-    onUpdate() {
-      os[0].mesh.position.x = animation.x;
-      os[0].mesh.rotation.z = animation.rotation;
-    },
-  });
+  // gsap.to(animation, {
+  //   rotation: Math.PI * 2,
+  //   x: meshX + 600,
+  //   scrollTrigger: {
+  //     trigger: el,
+  //     start: "center 80%",
+  //     end: "center 20%",
+  //     scrub: true,
+  //     pin: true,
+  //   },
+  //   onUpdate() {
+  //     os[0].mesh.position.x = animation.x;
+  //     os[0].mesh.rotation.z = animation.rotation;
+  //   },
+  // });
 
   //   // gsap.to(os[0].mesh.position, {
   //   //   x: pos.x,
@@ -233,4 +237,10 @@ function scrollInit() {
   //   //     os[0].mesh.position.x = pos.x;
   //   //   },
   //   // });
+}
+
+function bindResizeEvent() {
+  window.addEventListener('resize', () => {
+    console.log('resize');
+  })
 }

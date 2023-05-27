@@ -101,14 +101,18 @@ function resize(o, newCanvasRect) {
   const {
     $: { el },
     mesh,
+    geometry,
+    rect
   } = o;
-  const rect = el.getBoundingClientRect();
+  const nextRect = el.getBoundingClientRect();
   const { x, y } = getWorldPosition(rect, newCanvasRect);
   // console.log(rect.top, y);
   mesh.position.x = x;
   mesh.position.y = y;
 
   //大きさの変更
+geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
+o.rect = nextRect;
 }
 
 function getWorldPosition(rect, canvasRect) {

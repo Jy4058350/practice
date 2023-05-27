@@ -633,13 +633,15 @@ function scroll(o) {
     mesh.position.y = y;
 }
 function resize(o, newCanvasRect) {
-    const { $: { el  } , mesh  } = o;
-    const rect = el.getBoundingClientRect();
+    const { $: { el  } , mesh , geometry , rect  } = o;
+    const nextRect = el.getBoundingClientRect();
     const { x , y  } = getWorldPosition(rect, newCanvasRect);
     // console.log(rect.top, y);
     mesh.position.x = x;
     mesh.position.y = y;
-//大きさの変更
+    //大きさの変更
+    geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
+    o.rect = nextRect;
 }
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;

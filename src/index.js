@@ -97,6 +97,18 @@ function scroll(o) {
   mesh.position.y = y;
 }
 
+function resize(o, newCanvasRect) {
+  const {
+    $: { el },
+    mesh,
+  } = o;
+  const rect = el.getBoundingClientRect();
+  const { x, y } = getWorldPosition(rect, newCanvasRect);
+  // console.log(rect.top, y);
+  mesh.position.x = x;
+  mesh.position.y = y;
+}
+
 function getWorldPosition(rect, canvasRect) {
   const x = rect.left + rect.width / 2 - canvasRect.width / 2;
   const y = -rect.top - rect.height / 2 + canvasRect.height / 2;
@@ -245,13 +257,11 @@ function bindResizeEvent() {
       console.log("resize");
 
       const newCanvasRect = canvas.getBoundingClientRect();
-// canvasサイズの変更
-world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
-// meshの位置の再計算
+      // canvasサイズの変更
+      world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
+      // meshの位置の再計算
 
-// cameraの位置の再計算
-
-
+      // cameraの位置の再計算
     }, 500);
   });
 }

@@ -19,8 +19,6 @@ const canvasRect = canvas.getBoundingClientRect();
 
 init();
 
-
-
 function init() {
   world.renderer = new WebGLRenderer({
     canvas,
@@ -240,7 +238,11 @@ function scrollInit() {
 }
 
 function bindResizeEvent() {
-  window.addEventListener('resize', () => {
-    console.log('resize');
-  })
+  
+  window.addEventListener("resize", () => {
+    setTimeout(() => {
+      console.log("resize");
+
+    }, 500);
+  });
 }

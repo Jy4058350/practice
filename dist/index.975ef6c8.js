@@ -753,7 +753,9 @@ function scrollInit() {
 }
 function bindResizeEvent() {
     window.addEventListener("resize", ()=>{
-        console.log("resize");
+        setTimeout(()=>{
+            console.log("resize");
+        }, 500);
     });
 }
 

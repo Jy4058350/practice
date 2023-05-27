@@ -752,8 +752,10 @@ function scrollInit() {
 //   // });
 }
 function bindResizeEvent() {
+    let timerId = null;
     window.addEventListener("resize", ()=>{
-        setTimeout(()=>{
+        clearTimeout(timerId);
+        timerId = setTimeout(()=>{
             console.log("resize");
         }, 500);
     });

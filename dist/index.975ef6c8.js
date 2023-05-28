@@ -749,6 +749,10 @@ function raycast() {
         } else _mesh.material.uniforms.uHover.value = 0;
     }
 }
+//線形補完
+function lerp(a, b, n) {
+    let current = (1 - n) * a + n * b;
+}
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
 
 },{"three":"ktPTu","gsap":"juX9Y","smooth-scrollbar":"7azJf","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {

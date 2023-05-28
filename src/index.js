@@ -70,17 +70,16 @@ function init() {
       fragmentShader: `
       varying vec2 vUv;
       uniform vec2 uMouse;
+      uniform float uHover;
 
       void main() {
         vec2 mouse = step(uMouse, vUv);
-        gl_FragColor = vec4(mouse, 0.0, 1.);
+        gl_FragColor = vec4(mouse, uHover, 1.);
       }
       `,
       uniforms: {
-        uMouse: {
-          value: new Vector2(0.5, 0.5),
-          uFover: { valeu: 0 }
-        },
+        uMouse: { value: new Vector2(0.5, 0.5) },
+        uHover: { valeu: 0 },
       },
     });
 
@@ -240,7 +239,9 @@ function raycast() {
 
     if (intersect?.object === _mesh) {
       _mesh.material.uniforms.uMouse.value = intersect.uv;
+      _mesh.material.uniforms.uHover.value = 1;
     } else {
+      _mesh.material.uniforms.uHover.value = 0;
     }
   }
 }

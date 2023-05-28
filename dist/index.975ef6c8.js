@@ -613,18 +613,19 @@ function init() {
             fragmentShader: `
       varying vec2 vUv;
       uniform vec2 uMouse;
+      uniform float uHover;
 
       void main() {
         vec2 mouse = step(uMouse, vUv);
-        gl_FragColor = vec4(mouse, 0.0, 1.);
+        gl_FragColor = vec4(mouse, uHover, 1.);
       }
       `,
             uniforms: {
                 uMouse: {
-                    value: new (0, _three.Vector2)(0.5, 0.5),
-                    uFover: {
-                        valeu: 0
-                    }
+                    value: new (0, _three.Vector2)(0.5, 0.5)
+                },
+                uHover: {
+                    valeu: 0
                 }
             }
         });
@@ -742,7 +743,10 @@ function raycast() {
     const intersect = intersects[0];
     for(let i = 0; i < world.scene.children.length; i++){
         const _mesh = world.scene.children[i];
-        if (intersect?.object === _mesh) _mesh.material.uniforms.uMouse.value = intersect.uv;
+        if (intersect?.object === _mesh) {
+            _mesh.material.uniforms.uMouse.value = intersect.uv;
+            _mesh.material.uniforms.uHover.value = 1;
+        } else _mesh.material.uniforms.uHover.value = 0;
     }
 }
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換

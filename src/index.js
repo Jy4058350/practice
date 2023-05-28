@@ -293,6 +293,7 @@ function onPointerMove(event) {
   // calculate pointer position in normalized device coordinates
   // (-1 to +1) for both components
 
+  // ⭐️説明部分
   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }

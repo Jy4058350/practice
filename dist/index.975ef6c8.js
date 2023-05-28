@@ -608,6 +608,7 @@ function init() {
             geometry,
             material,
             mesh,
+            rect,
             $: {
                 el
             }

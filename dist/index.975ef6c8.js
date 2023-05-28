@@ -618,9 +618,9 @@ function init() {
         world.scene.add(mesh);
         os.push(o);
     });
-    render1();
-    function render1() {
-        requestAnimationFrame(render1);
+    render();
+    function render() {
+        requestAnimationFrame(render);
         os.forEach((o)=>{
             scroll(o);
         });
@@ -803,10 +803,11 @@ function raycast() {
     raycaster.setFromCamera(pointer, world.camera);
     // calculate objects intersecting the picking ray
     const intersects = raycaster.intersectObjects(world.scene.children);
-    for(let i = 0; i < intersects.length; i++)intersects[i].object.material.color.set(0xff0000);
+    console.log(intersects);
+    for(let i = 0; i < intersects.length; i++)intersects[i].object.material.color.set(0x00ff00);
 }
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
-window.requestAnimationFrame(render); // Raycasterのアドレス
+ // Raycasterのアドレス
  // https://ics.media/tutorial-three/raycasting.html
  //threejs.org/docs/index.html?q=Raycaster#api/en/core/Raycaster
  /*

@@ -25,7 +25,6 @@ init();
 function init() {
   scrollInit();
   bindResizeEvent();
-  
 
   world.renderer = new WebGLRenderer({
     canvas,
@@ -290,40 +289,28 @@ function bindResizeEvent() {
   });
 }
 
+function onPointerMove(event) {
+  // calculate pointer position in normalized device coordinates
+  // (-1 to +1) for both components
 
-
-function onPointerMove( event ) {
-
-	// calculate pointer position in normalized device coordinates
-	// (-1 to +1) for both components
-
-	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function raycast() {
+  // update the picking ray with the camera and pointer position
+  raycaster.setFromCamera(pointer, world.camera);
 
-	// update the picking ray with the camera and pointer position
-	raycaster.setFromCamera( pointer, world.camera );
+  // calculate objects intersecting the picking ray
+  const intersects = raycaster.intersectObjects(world.scene.children);
+  console.log(intersects);
 
-	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( world.scene.children );
-
-	for ( let i = 0; i < intersects.length; i ++ ) {
-
-		intersects[ i ].object.material.color.set( 0xff0000 );
-
-	}
-
-
-
+  for (let i = 0; i < intersects.length; i++) {
+    intersects[i].object.material.color.set(0x00ff00);
+  }
 }
 
-window.addEventListener( 'pointermove', onPointerMove );//mousemoveの上位互換
-
-window.requestAnimationFrame(render);
-
+window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
 
 // Raycasterのアドレス
 // https://ics.media/tutorial-three/raycasting.html

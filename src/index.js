@@ -249,6 +249,7 @@ function raycast() {
 //線形補完
 function lerp(a, b, n) {
   let current = (1 - n) * a + n * b;
+  return current;
 }
 
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換

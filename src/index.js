@@ -58,7 +58,21 @@ function init() {
     //   transparent: true,
     //   opacity: 0.3,
     // });
-const material = new ShaderMaterial();
+    const material = new ShaderMaterial({
+      vertexShader: `
+      void main() {
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+        `,
+      fragmentShader: `
+      void main() {
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 0.3);}`,
+      uniforms: {
+        uMouse: {
+          value: new Vector2(0.5, 0.5),
+        },
+      },
+    });
 
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
@@ -215,9 +229,9 @@ function raycast() {
     const _mesh = world.scene.children[i];
 
     if (intersect?.object === _mesh) {
-      _mesh.material.color.set(0x00ff00);
+      // _mesh.material.color.set(0x00ff00);
     } else {
-      _mesh.material.color.set(0xff0000);
+      // _mesh.material.color.set(0xff0000);
     }
   }
 }

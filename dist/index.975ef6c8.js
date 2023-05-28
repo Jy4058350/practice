@@ -596,11 +596,12 @@ function init() {
     els.forEach((el)=>{
         const rect = el.getBoundingClientRect();
         const geometry = new (0, _three.PlaneGeometry)(rect.width, rect.height, 1, 1);
-        const material = new (0, _three.MeshBasicMaterial)({
-            color: 0xff0000,
-            transparent: true,
-            opacity: 0.3
-        });
+        // const material = new MeshBasicMaterial({
+        //   color: 0xff0000,
+        //   transparent: true,
+        //   opacity: 0.3,
+        // });
+        const material = new (0, _three.ShaderMaterial)();
         const mesh = new (0, _three.Mesh)(geometry, material);
         mesh.position.z = 0;
         const { x , y  } = getWorldPosition(rect, canvasRect);

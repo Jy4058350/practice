@@ -8,6 +8,7 @@ import {
   WebGLRenderer,
   Raycaster,
   Vector2,
+  ShaderMaterial,
 } from "three";
 
 import gsap from "gsap";
@@ -52,11 +53,13 @@ function init() {
     const rect = el.getBoundingClientRect();
 
     const geometry = new PlaneGeometry(rect.width, rect.height, 1, 1);
-    const material = new MeshBasicMaterial({
-      color: 0xff0000,
-      transparent: true,
-      opacity: 0.3,
-    });
+    // const material = new MeshBasicMaterial({
+    //   color: 0xff0000,
+    //   transparent: true,
+    //   opacity: 0.3,
+    // });
+const material = new ShaderMaterial();
+
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
 
@@ -158,8 +161,6 @@ function scrollInit() {
   });
 
   const el = document.querySelector("[data-webgl]");
-
-  
 }
 
 function bindResizeEvent() {
@@ -210,19 +211,15 @@ function raycast() {
   const intersects = raycaster.intersectObjects(world.scene.children);
   const intersect = intersects[0];
 
-
   for (let i = 0; i < world.scene.children.length; i++) {
     const _mesh = world.scene.children[i];
 
-    if(intersect?.object === _mesh) {
+    if (intersect?.object === _mesh) {
       _mesh.material.color.set(0x00ff00);
-      
     } else {
       _mesh.material.color.set(0xff0000);
-
     }
   }
 }
 
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
-

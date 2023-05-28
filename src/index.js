@@ -239,7 +239,7 @@ function raycast() {
 
     if (intersect?.object === _mesh) {
       _mesh.material.uniforms.uMouse.value = intersect.uv;
-      _mesh.material.uniforms.uHover.value = 1;
+      _mesh.material.uniforms.uHover.endValue = 1;
     } else {
       _mesh.material.uniforms.uHover.value = 0;
     }
@@ -249,6 +249,7 @@ function raycast() {
 //線形補完
 function lerp(a, b, n) {
   let current = (1 - n) * a + n * b;
+  if(Math.abs(b - current) < 0.001) current = b;s
   return current;
 }
 

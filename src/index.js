@@ -6,6 +6,8 @@ import {
   PlaneGeometry,
   Scene,
   WebGLRenderer,
+  Raycaster,
+  Vector2,
 } from "three";
 
 import gsap from "gsap";
@@ -16,8 +18,8 @@ const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
+const raycaster = new Raycaster();
+const pointer = new Vector2();
 
 init();
 function init() {

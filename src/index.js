@@ -65,7 +65,7 @@ function init() {
       geometry,
       material,
       mesh,
-      rect,
+      rect, //追加　これでエラーは消えたけど、シンクロはせず
       $: {
         el,
       },

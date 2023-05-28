@@ -18,7 +18,6 @@ const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
 
 init();
-
 function init() {
   world.renderer = new WebGLRenderer({
     canvas,
@@ -38,7 +37,6 @@ function init() {
   const cameraZ = 2000;
   const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
   const fov = radian * (180 / Math.PI);
-
   world.camera = new PerspectiveCamera(fov, aspect, near, far);
   world.camera.position.z = cameraZ;
 
@@ -74,7 +72,8 @@ function init() {
 
   scrollInit();
   bindResizeEvent();
-
+  
+  render();
   function render() {
     requestAnimationFrame(render);
     os.forEach((o) => {
@@ -82,7 +81,6 @@ function init() {
     });
     world.renderer.render(world.scene, world.camera);
   }
-  render();
 }
 
 function scroll(o) {
@@ -93,7 +91,7 @@ function scroll(o) {
   const rect = el.getBoundingClientRect();
   const { x, y } = getWorldPosition(rect, canvasRect);
   // console.log(rect.top, y);
-  mesh.position.x = x;
+  // mesh.position.x = x;
   mesh.position.y = y;
 }
 
@@ -105,13 +103,13 @@ function resize(o, newCanvasRect) {
     rect,
   } = o;
   const nextRect = el.getBoundingClientRect();
-  const { x, y } = getWorldPosition(rect, newCanvasRect);
+  const { x, y } = getWorldPosition(nextRect, newCanvasRect);
   // console.log(rect.top, y);
   mesh.position.x = x;
   mesh.position.y = y;
 
   //大きさの変更
-  geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
+geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1)
   o.rect = nextRect;
 }
 
@@ -128,7 +126,7 @@ function scrollInit() {
   // SmoothScrollbar.init(pageContainer);
 
   const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document,
+    delegateTo: document
   });
 
   ScrollTrigger.scrollerProxy(pageContainer, {
@@ -284,6 +282,8 @@ function bindResizeEvent() {
       world.camera.near = near;
       world.camera.far = far;
       world.camera.updateProjectionMatrix();
+
+      
     }, 500);
   });
 }

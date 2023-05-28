@@ -615,6 +615,7 @@ function init() {
     });
     scrollInit();
     bindResizeEvent();
+    render();
     function render() {
         requestAnimationFrame(render);
         os.forEach((o)=>{
@@ -622,20 +623,19 @@ function init() {
         });
         world.renderer.render(world.scene, world.camera);
     }
-    render();
 }
 function scroll(o) {
     const { $: { el  } , mesh  } = o;
     const rect = el.getBoundingClientRect();
     const { x , y  } = getWorldPosition(rect, canvasRect);
     // console.log(rect.top, y);
-    mesh.position.x = x;
+    // mesh.position.x = x;
     mesh.position.y = y;
 }
 function resize(o, newCanvasRect) {
     const { $: { el  } , mesh , geometry , rect  } = o;
     const nextRect = el.getBoundingClientRect();
-    const { x , y  } = getWorldPosition(rect, newCanvasRect);
+    const { x , y  } = getWorldPosition(nextRect, newCanvasRect);
     // console.log(rect.top, y);
     mesh.position.x = x;
     mesh.position.y = y;

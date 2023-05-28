@@ -305,10 +305,10 @@ function onPointerMove( event ) {
 function raycast() {
 
 	// update the picking ray with the camera and pointer position
-	raycaster.setFromCamera( pointer, camera );
+	raycaster.setFromCamera( pointer, world.camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( scene.children );
+	const intersects = raycaster.intersectObjects( world.scene.children );
 
 	for ( let i = 0; i < intersects.length; i ++ ) {
 
@@ -316,7 +316,7 @@ function raycast() {
 
 	}
 
-	renderer.render( scene, camera );
+
 
 }
 

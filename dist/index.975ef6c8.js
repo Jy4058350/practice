@@ -800,11 +800,10 @@ function onPointerMove(event) {
 }
 function raycast() {
     // update the picking ray with the camera and pointer position
-    raycaster.setFromCamera(pointer, camera);
+    raycaster.setFromCamera(pointer, world.camera);
     // calculate objects intersecting the picking ray
-    const intersects = raycaster.intersectObjects(scene.children);
+    const intersects = raycaster.intersectObjects(world.scene.children);
     for(let i = 0; i < intersects.length; i++)intersects[i].object.material.color.set(0xff0000);
-    renderer.render(scene, camera);
 }
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
 window.requestAnimationFrame(render); // Raycasterのアドレス

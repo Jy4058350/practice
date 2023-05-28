@@ -637,7 +637,6 @@ function resize(o, newCanvasRect) {
     const { $: { el  } , mesh , geometry , rect  } = o;
     const nextRect = el.getBoundingClientRect();
     const { x , y  } = getWorldPosition(nextRect, newCanvasRect);
-    // console.log(rect.top, y);
     mesh.position.x = x;
     mesh.position.y = y;
     //大きさの変更

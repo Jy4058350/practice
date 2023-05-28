@@ -608,8 +608,12 @@ function init() {
         }
         `,
             fragmentShader: `
+      uniform vec2 uMouse;
+
       void main() {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 0.3);}`,
+        gl_FragColor = vec4(uMouse, 0.0, 1.);
+      }
+      `,
             uniforms: {
                 uMouse: {
                     value: new (0, _three.Vector2)(0.5, 0.5)
@@ -730,7 +734,7 @@ function raycast() {
     const intersect = intersects[0];
     for(let i = 0; i < world.scene.children.length; i++){
         const _mesh = world.scene.children[i];
-        intersect?.object;
+        if (intersect?.object === _mesh) _mesh.material.uniforms.uMouse.value = intersect.uv;
     }
 }
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換

@@ -65,8 +65,12 @@ function init() {
         }
         `,
       fragmentShader: `
+      uniform vec2 uMouse;
+
       void main() {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 0.3);}`,
+        gl_FragColor = vec4(uMouse, 0.0, 1.);
+      }
+      `,
       uniforms: {
         uMouse: {
           value: new Vector2(0.5, 0.5),
@@ -229,9 +233,8 @@ function raycast() {
     const _mesh = world.scene.children[i];
 
     if (intersect?.object === _mesh) {
-      // _mesh.material.color.set(0x00ff00);
+      _mesh.material.uniforms.uMouse.value = intersect.uv;
     } else {
-      // _mesh.material.color.set(0xff0000);
     }
   }
 }

@@ -745,8 +745,8 @@ function raycast() {
         const _mesh = world.scene.children[i];
         if (intersect?.object === _mesh) {
             _mesh.material.uniforms.uMouse.value = intersect.uv;
-            _mesh.material.uniforms.uHover.endValue = 1;
-        } else _mesh.material.uniforms.uHover.value = 0;
+            _mesh.material.uniforms.uHover.__endValue = 1;
+        } else _mesh.material.uniforms.uHover.__endValue = 0;
     }
 }
 //線形補完

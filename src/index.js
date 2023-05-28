@@ -244,6 +244,8 @@ function raycast() {
     } else {
       uHover.__endValue = 0;
     }
+
+    uHover.value = lerp(uHover.value, uHover.__endValue, 0.3);
   }
 }
 

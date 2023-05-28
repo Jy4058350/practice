@@ -748,6 +748,7 @@ function raycast() {
             _mesh.material.uniforms.uMouse.value = intersect.uv;
             uHover.__endValue = 1;
         } else uHover.__endValue = 0;
+        uHover.value = lerp(uHover.value, uHover.__endValue, 0.3);
     }
 }
 //線形補完

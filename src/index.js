@@ -60,20 +60,26 @@ function init() {
     // });
     const material = new ShaderMaterial({
       vertexShader: `
+      varying vec2 vUv;
+
       void main() {
+          vUv = uv;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
         `,
       fragmentShader: `
+      varying vec2 vUv;
       uniform vec2 uMouse;
 
       void main() {
-        gl_FragColor = vec4(uMouse, 0.0, 1.);
+        vec2 mouse = step(uMouse, vUv);
+        gl_FragColor = vec4(mouse, 0.0, 1.);
       }
       `,
       uniforms: {
         uMouse: {
           value: new Vector2(0.5, 0.5),
+          uFover: { valeu: 0 }
         },
       },
     });
@@ -89,7 +95,7 @@ function init() {
       geometry,
       material,
       mesh,
-      rect, //追加　これでエラーは消えたけど、シンクロはせず
+      rect,
       $: {
         el,
       },

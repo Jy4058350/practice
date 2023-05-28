@@ -75,8 +75,7 @@ function init() {
     os.push(o);
   });
 
-  scrollInit();
-  bindResizeEvent();
+
 
   render();
   function render() {

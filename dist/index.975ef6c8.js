@@ -616,8 +616,6 @@ function init() {
         world.scene.add(mesh);
         os.push(o);
     });
-    scrollInit();
-    bindResizeEvent();
     render();
     function render() {
         requestAnimationFrame(render);

@@ -315,7 +315,7 @@ function render() {
 
 }
 
-window.addEventListener( 'pointermove', onPointerMove );
+window.addEventListener( 'pointermove', onPointerMove );//mousemoveの上位互換
 
 window.requestAnimationFrame(render);
 

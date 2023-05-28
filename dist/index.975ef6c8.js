@@ -805,7 +805,7 @@ function render() {
     for(let i = 0; i < intersects.length; i++)intersects[i].object.material.color.set(0xff0000);
     renderer.render(scene, camera);
 }
-window.addEventListener("pointermove", onPointerMove);
+window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
 window.requestAnimationFrame(render); // Raycasterのアドレス
  // https://ics.media/tutorial-three/raycasting.html
  //threejs.org/docs/index.html?q=Raycaster#api/en/core/Raycaster

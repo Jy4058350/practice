@@ -629,7 +629,7 @@ function scroll(o) {
     const rect = el.getBoundingClientRect();
     const { x , y  } = getWorldPosition(rect, canvasRect);
     // console.log(rect.top, y);
-    // mesh.position.x = x;
+    mesh.position.x = x;
     mesh.position.y = y;
 }
 function resize(o, newCanvasRect) {
@@ -775,7 +775,20 @@ function bindResizeEvent() {
             os.forEach((o)=>{
                 resize(o, newCanvasRect);
             });
-        // cameraの位置の再計算
+            // cameraの位置の再計算
+            const cameraWidth = newCanvasRect.width;
+            const cameraHeight = newCanvasRect.height;
+            const near = 1500;
+            const far = 4000;
+            const aspect = cameraWidth / cameraHeight;
+            const cameraZ = 2000;
+            const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
+            const fov = radian * (180 / Math.PI);
+            world.camera.fov = fov;
+            world.camera.aspect = aspect;
+            world.camera.near = near;
+            world.camera.far = far;
+            world.camera.updateProjectionMatrix();
         }, 500);
     });
 }

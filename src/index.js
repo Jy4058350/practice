@@ -22,7 +22,6 @@ function init() {
   scrollInit();
   bindResizeEvent();
 
-  
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,
@@ -52,7 +51,7 @@ function init() {
     const material = new MeshBasicMaterial({
       color: 0xff0000,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.3,
     });
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
@@ -74,8 +73,6 @@ function init() {
     world.scene.add(mesh);
     os.push(o);
   });
-
-
 
   render();
   function render() {
@@ -127,10 +124,9 @@ function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
 
   const pageContainer = document.querySelector("#page-container");
-  // SmoothScrollbar.init(pageContainer);
 
   const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document
+    delegateTo: document,
   });
 
   ScrollTrigger.scrollerProxy(pageContainer, {
@@ -268,9 +264,7 @@ function bindResizeEvent() {
       // canvasサイズの変更
       world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
       // meshの位置の再計算
-      os.forEach((o) => {
-        resize(o, newCanvasRect);
-      });
+      os.forEach((o) => resize(o, newCanvasRect));
       // cameraの位置の再計算
       const cameraWidth = newCanvasRect.width;
       const cameraHeight = newCanvasRect.height;
@@ -282,9 +276,9 @@ function bindResizeEvent() {
       const fov = radian * (180 / Math.PI);
 
       world.camera.fov = fov;
-      world.camera.aspect = aspect;
       world.camera.near = near;
       world.camera.far = far;
+      world.camera.aspect = aspect;
       world.camera.updateProjectionMatrix();
     }, 500);
   });

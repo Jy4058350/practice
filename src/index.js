@@ -19,6 +19,10 @@ const canvasRect = canvas.getBoundingClientRect();
 
 init();
 function init() {
+  scrollInit();
+  bindResizeEvent();
+
+  
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,
@@ -72,7 +76,7 @@ function init() {
 
   scrollInit();
   bindResizeEvent();
-  
+
   render();
   function render() {
     requestAnimationFrame(render);
@@ -109,7 +113,7 @@ function resize(o, newCanvasRect) {
   mesh.position.y = y;
 
   //大きさの変更
-geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1)
+  geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
   o.rect = nextRect;
 }
 
@@ -126,7 +130,7 @@ function scrollInit() {
   // SmoothScrollbar.init(pageContainer);
 
   const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document
+    delegateTo: document,
   });
 
   ScrollTrigger.scrollerProxy(pageContainer, {
@@ -282,8 +286,6 @@ function bindResizeEvent() {
       world.camera.near = near;
       world.camera.far = far;
       world.camera.updateProjectionMatrix();
-
-      
     }, 500);
   });
 }

@@ -570,6 +570,8 @@ const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
 init();
 function init() {
+    scrollInit();
+    bindResizeEvent();
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
         antialias: true

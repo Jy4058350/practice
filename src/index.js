@@ -245,14 +245,14 @@ function raycast() {
       uHover.__endValue = 0;
     }
 
-    uHover.value = lerp(uHover.value, uHover.__endValue, 0.3);
+    uHover.value = lerp(uHover.value, uHover.__endValue, 0.01);
   }
 }
 
 //線形補完
 function lerp(a, b, n) {
   let current = (1 - n) * a + n * b;
-  if(Math.abs(b - current) < 0.001) current = b;s
+  if(Math.abs(b - current) < 0.001) current = b;
   return current;
 }
 

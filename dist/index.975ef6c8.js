@@ -618,12 +618,13 @@ function init() {
         world.scene.add(mesh);
         os.push(o);
     });
-    render();
-    function render() {
-        requestAnimationFrame(render);
+    render1();
+    function render1() {
+        requestAnimationFrame(render1);
         os.forEach((o)=>{
             scroll(o);
         });
+        raycast();
         world.renderer.render(world.scene, world.camera);
     }
 }
@@ -797,7 +798,7 @@ function onPointerMove(event) {
     pointer.x = event.clientX / window.innerWidth * 2 - 1;
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
-function render() {
+function raycast() {
     // update the picking ray with the camera and pointer position
     raycaster.setFromCamera(pointer, camera);
     // calculate objects intersecting the picking ray

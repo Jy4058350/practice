@@ -85,6 +85,7 @@ function init() {
     os.forEach((o) => {
       scroll(o);
     });
+    raycast();
     world.renderer.render(world.scene, world.camera);
   }
 }
@@ -301,7 +302,7 @@ function onPointerMove( event ) {
 
 }
 
-function render() {
+function raycast() {
 
 	// update the picking ray with the camera and pointer position
 	raycaster.setFromCamera( pointer, camera );

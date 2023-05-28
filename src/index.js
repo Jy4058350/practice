@@ -306,11 +306,13 @@ function raycast() {
 
 
   for (let i = 0; i < world.scene.children.length; i++) {
+    const _mesh = world.scene.children[i];
     if(ホバーしている場合) {
       intersects[i].object.material.color.set(0x00ff00);
-
-    } else {
       
+    } else {
+      intersects[i].object.material.color.set(0xff0000);
+
     }
   }
 }

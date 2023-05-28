@@ -743,10 +743,11 @@ function raycast() {
     const intersect = intersects[0];
     for(let i = 0; i < world.scene.children.length; i++){
         const _mesh = world.scene.children[i];
+        const uHover = _mesh.material.uniforms.uHover;
         if (intersect?.object === _mesh) {
             _mesh.material.uniforms.uMouse.value = intersect.uv;
-            _mesh.material.uniforms.uHover.__endValue = 1;
-        } else _mesh.material.uniforms.uHover.__endValue = 0;
+            uHover.__endValue = 1;
+        } else uHover.__endValue = 0;
     }
 }
 //線形補完

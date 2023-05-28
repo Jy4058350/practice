@@ -568,6 +568,8 @@ const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
 init();
 function init() {
     scrollInit();
@@ -789,8 +791,6 @@ function bindResizeEvent() {
         }, 500);
     });
 }
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
 function onPointerMove(event) {
     // calculate pointer position in normalized device coordinates
     // (-1 to +1) for both components

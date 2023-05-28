@@ -19,6 +19,9 @@ const canvasRect = canvas.getBoundingClientRect();
 
 init();
 function init() {
+  scrollInit();
+  bindResizeEvent();
+
   world.renderer = new WebGLRenderer({
     canvas,
     antialias: true,
@@ -48,7 +51,7 @@ function init() {
     const material = new MeshBasicMaterial({
       color: 0xff0000,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.3,
     });
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
@@ -61,6 +64,7 @@ function init() {
       geometry,
       material,
       mesh,
+      rect, //追加　これでエラーは消えたけど、シンクロはせず
       $: {
         el,
       },
@@ -70,9 +74,6 @@ function init() {
     os.push(o);
   });
 
-  scrollInit();
-  bindResizeEvent();
-  
   render();
   function render() {
     requestAnimationFrame(render);
@@ -104,12 +105,12 @@ function resize(o, newCanvasRect) {
   } = o;
   const nextRect = el.getBoundingClientRect();
   const { x, y } = getWorldPosition(nextRect, newCanvasRect);
-  // console.log(rect.top, y);
   mesh.position.x = x;
   mesh.position.y = y;
 
   //大きさの変更
-geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1)
+  geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
+
   o.rect = nextRect;
 }
 
@@ -123,10 +124,9 @@ function scrollInit() {
   gsap.registerPlugin(ScrollTrigger);
 
   const pageContainer = document.querySelector("#page-container");
-  // SmoothScrollbar.init(pageContainer);
 
   const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document
+    delegateTo: document,
   });
 
   ScrollTrigger.scrollerProxy(pageContainer, {
@@ -264,9 +264,7 @@ function bindResizeEvent() {
       // canvasサイズの変更
       world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
       // meshの位置の再計算
-      os.forEach((o) => {
-        resize(o, newCanvasRect);
-      });
+      os.forEach((o) => resize(o, newCanvasRect));
       // cameraの位置の再計算
       const cameraWidth = newCanvasRect.width;
       const cameraHeight = newCanvasRect.height;
@@ -278,12 +276,10 @@ function bindResizeEvent() {
       const fov = radian * (180 / Math.PI);
 
       world.camera.fov = fov;
-      world.camera.aspect = aspect;
       world.camera.near = near;
       world.camera.far = far;
+      world.camera.aspect = aspect;
       world.camera.updateProjectionMatrix();
-
-      
     }, 500);
   });
 }

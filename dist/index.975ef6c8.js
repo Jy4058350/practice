@@ -570,6 +570,8 @@ const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
 init();
 function init() {
+    scrollInit();
+    bindResizeEvent();
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
         antialias: true
@@ -595,7 +597,7 @@ function init() {
         const material = new (0, _three.MeshBasicMaterial)({
             color: 0xff0000,
             transparent: true,
-            opacity: 0.2
+            opacity: 0.3
         });
         const mesh = new (0, _three.Mesh)(geometry, material);
         mesh.position.z = 0;
@@ -606,6 +608,7 @@ function init() {
             geometry,
             material,
             mesh,
+            rect,
             $: {
                 el
             }
@@ -613,8 +616,6 @@ function init() {
         world.scene.add(mesh);
         os.push(o);
     });
-    scrollInit();
-    bindResizeEvent();
     render();
     function render() {
         requestAnimationFrame(render);
@@ -636,7 +637,6 @@ function resize(o, newCanvasRect) {
     const { $: { el  } , mesh , geometry , rect  } = o;
     const nextRect = el.getBoundingClientRect();
     const { x , y  } = getWorldPosition(nextRect, newCanvasRect);
-    // console.log(rect.top, y);
     mesh.position.x = x;
     mesh.position.y = y;
     //大きさの変更
@@ -654,7 +654,6 @@ function getWorldPosition(rect, canvasRect) {
 function scrollInit() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const pageContainer = document.querySelector("#page-container");
-    // SmoothScrollbar.init(pageContainer);
     const scrollBar = (0, _smoothScrollbarDefault.default).init(pageContainer, {
         delegateTo: document
     });
@@ -772,9 +771,7 @@ function bindResizeEvent() {
             // canvasサイズの変更
             world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
             // meshの位置の再計算
-            os.forEach((o)=>{
-                resize(o, newCanvasRect);
-            });
+            os.forEach((o)=>resize(o, newCanvasRect));
             // cameraの位置の再計算
             const cameraWidth = newCanvasRect.width;
             const cameraHeight = newCanvasRect.height;
@@ -785,9 +782,9 @@ function bindResizeEvent() {
             const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
             const fov = radian * (180 / Math.PI);
             world.camera.fov = fov;
-            world.camera.aspect = aspect;
             world.camera.near = near;
             world.camera.far = far;
+            world.camera.aspect = aspect;
             world.camera.updateProjectionMatrix();
         }, 500);
     });

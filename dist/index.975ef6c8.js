@@ -803,6 +803,7 @@ function raycast() {
     raycaster.setFromCamera(pointer, world.camera);
     // calculate objects intersecting the picking ray
     const intersects = raycaster.intersectObjects(world.scene.children);
+    const intersect = intersects[0];
     for(let i = 0; i < world.scene.children.length; i++){
         const _mesh = world.scene.children[i];
         if (ホバーしている場合) intersects[i].object.material.color.set(0x00ff00);

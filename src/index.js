@@ -303,6 +303,7 @@ function raycast() {
 
   // calculate objects intersecting the picking ray
   const intersects = raycaster.intersectObjects(world.scene.children);
+  const intersect = intersects[0];
 
 
   for (let i = 0; i < world.scene.children.length; i++) {

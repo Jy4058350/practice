@@ -788,7 +788,9 @@ function bindResizeEvent() {
             world.camera.updateProjectionMatrix();
         }, 500);
     });
-}
+} // Raycasterのアドレス
+ // https://ics.media/tutorial-three/raycasting.html
+ //threejs.org/docs/index.html?q=Raycaster#api/en/core/Raycaster
 
 },{"three":"ktPTu","gsap":"juX9Y","smooth-scrollbar":"7azJf","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**

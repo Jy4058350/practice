@@ -113,7 +113,7 @@ function resize(o, newCanvasRect) {
 
   //大きさの変更
   geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
-  
+
   o.rect = nextRect;
 }
 
@@ -130,7 +130,7 @@ function scrollInit() {
   // SmoothScrollbar.init(pageContainer);
 
   const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document,
+    delegateTo: document
   });
 
   ScrollTrigger.scrollerProxy(pageContainer, {

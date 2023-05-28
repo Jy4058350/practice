@@ -614,6 +614,8 @@ function init() {
         os.push(o);
     });
     scrollInit();
+    bindResizeEvent();
+    render();
     function render() {
         requestAnimationFrame(render);
         os.forEach((o)=>{
@@ -621,7 +623,6 @@ function init() {
         });
         world.renderer.render(world.scene, world.camera);
     }
-    render();
 }
 function scroll(o) {
     const { $: { el  } , mesh  } = o;
@@ -630,6 +631,17 @@ function scroll(o) {
     // console.log(rect.top, y);
     // mesh.position.x = x;
     mesh.position.y = y;
+}
+function resize(o, newCanvasRect) {
+    const { $: { el  } , mesh , geometry , rect  } = o;
+    const nextRect = el.getBoundingClientRect();
+    const { x , y  } = getWorldPosition(nextRect, newCanvasRect);
+    // console.log(rect.top, y);
+    mesh.position.x = x;
+    mesh.position.y = y;
+    //大きさの変更
+    geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
+    o.rect = nextRect;
 }
 function getWorldPosition(rect, canvasRect) {
     const x = rect.left + rect.width / 2 - canvasRect.width / 2;
@@ -657,30 +669,30 @@ function scrollInit() {
         scroller: pageContainer
     });
     const el = document.querySelector("[data-webgl]");
-    // const rect = el.getBoundingClientRect();
-    // const x = rect.left + 10;
-    // const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
-    //追加記述
-    const meshX = os[0].mesh.position.x;
-    const animation = {
-        rotation: 0,
-        x: meshX
-    };
-    (0, _gsapDefault.default).to(animation, {
-        rotation: Math.PI * 2,
-        x: meshX + 600,
-        scrollTrigger: {
-            trigger: el,
-            start: "center 80%",
-            end: "center 20%",
-            scrub: true,
-            pin: true
-        },
-        onUpdate () {
-            os[0].mesh.position.x = animation.x;
-            os[0].mesh.rotation.z = animation.rotation;
-        }
-    });
+// const rect = el.getBoundingClientRect();
+// const x = rect.left + 10;
+// const pos = getWorldPosition({ left: x, width: rect.width }, canvasRect);
+//追加記述
+// const meshX = os[0].mesh.position.x;
+// const animation = {
+//   rotation: 0,
+//   x: meshX,
+// };
+// gsap.to(animation, {
+//   rotation: Math.PI * 2,
+//   x: meshX + 600,
+//   scrollTrigger: {
+//     trigger: el,
+//     start: "center 80%",
+//     end: "center 20%",
+//     scrub: true,
+//     pin: true,
+//   },
+//   onUpdate() {
+//     os[0].mesh.position.x = animation.x;
+//     os[0].mesh.rotation.z = animation.rotation;
+//   },
+// });
 //   // gsap.to(os[0].mesh.position, {
 //   //   x: pos.x,
 //   //   scrollTrigger: {
@@ -749,6 +761,36 @@ function scrollInit() {
 //   //     os[0].mesh.position.x = pos.x;
 //   //   },
 //   // });
+}
+function bindResizeEvent() {
+    let timerId = null;
+    window.addEventListener("resize", ()=>{
+        clearTimeout(timerId);
+        timerId = setTimeout(()=>{
+            console.log("resize");
+            const newCanvasRect = canvas.getBoundingClientRect();
+            // canvasサイズの変更
+            world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
+            // meshの位置の再計算
+            os.forEach((o)=>{
+                resize(o, newCanvasRect);
+            });
+            // cameraの位置の再計算
+            const cameraWidth = newCanvasRect.width;
+            const cameraHeight = newCanvasRect.height;
+            const near = 1500;
+            const far = 4000;
+            const aspect = cameraWidth / cameraHeight;
+            const cameraZ = 2000;
+            const radian = 2 * Math.atan(cameraHeight / 2 / cameraZ);
+            const fov = radian * (180 / Math.PI);
+            world.camera.fov = fov;
+            world.camera.aspect = aspect;
+            world.camera.near = near;
+            world.camera.far = far;
+            world.camera.updateProjectionMatrix();
+        }, 500);
+    });
 }
 
 },{"three":"ktPTu","gsap":"juX9Y","smooth-scrollbar":"7azJf","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {

@@ -303,9 +303,9 @@ function raycast() {
 
   // calculate objects intersecting the picking ray
   const intersects = raycaster.intersectObjects(world.scene.children);
-  console.log(intersects);
 
-  for (let i = 0; i < intersects.length; i++) {
+
+  for (let i = 0; i < world.scene.children.length; i++) {
     intersects[i].object.material.color.set(0x00ff00);
   }
 }

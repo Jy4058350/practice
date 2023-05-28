@@ -803,8 +803,7 @@ function raycast() {
     raycaster.setFromCamera(pointer, world.camera);
     // calculate objects intersecting the picking ray
     const intersects = raycaster.intersectObjects(world.scene.children);
-    console.log(intersects);
-    for(let i = 0; i < intersects.length; i++)intersects[i].object.material.color.set(0x00ff00);
+    for(let i = 0; i < world.scene.children.length; i++)intersects[i].object.material.color.set(0x00ff00);
 }
 window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
  // Raycasterのアドレス

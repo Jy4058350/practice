@@ -573,7 +573,7 @@ const pointer = new (0, _three.Vector2)();
 init();
 function init() {
     scrollInit();
-    bindResizeEvent();
+    bindResizeEvents();
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
         antialias: true
@@ -699,7 +699,7 @@ function scrollInit() {
     });
     const el = document.querySelector("[data-webgl]");
 }
-function bindResizeEvent() {
+function bindResizeEvents() {
     let timerId = null;
     window.addEventListener("resize", ()=>{
         clearTimeout(timerId);
@@ -755,7 +755,7 @@ function lerp(a, b, n) {
     if (Math.abs(b - current) < 0.001) current = b;
     return current;
 }
-window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
+window.addEventListener("pointermove", onPointerMove);
 
 },{"three":"ktPTu","gsap":"juX9Y","smooth-scrollbar":"7azJf","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**

@@ -19,13 +19,14 @@ const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
+
 const raycaster = new Raycaster();
 const pointer = new Vector2();
 
 init();
 function init() {
   scrollInit();
-  bindResizeEvent();
+  bindResizeEvents();
 
   world.renderer = new WebGLRenderer({
     canvas,
@@ -185,7 +186,7 @@ function scrollInit() {
   const el = document.querySelector("[data-webgl]");
 }
 
-function bindResizeEvent() {
+function bindResizeEvents() {
   let timerId = null;
   window.addEventListener("resize", () => {
     clearTimeout(timerId);
@@ -254,4 +255,4 @@ function lerp(a, b, n) {
   return current;
 }
 
-window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
+window.addEventListener("pointermove", onPointerMove); 

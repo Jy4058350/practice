@@ -122,7 +122,6 @@ function scroll(o) {
   } = o;
   const rect = el.getBoundingClientRect();
   const { x, y } = getWorldPosition(rect, canvasRect);
-  // console.log(rect.top, y);
   // mesh.position.x = x;
   mesh.position.y = y;
 }
@@ -221,7 +220,6 @@ function onPointerMove(event) {
   // calculate pointer position in normalized device coordinates
   // (-1 to +1) for both components
 
-  // ⭐️説明部分
   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
@@ -245,7 +243,7 @@ function raycast() {
       uHover.__endValue = 0;
     }
 
-    uHover.value = lerp(uHover.value, uHover.__endValue, 0.01);
+    uHover.value = lerp(uHover.value, uHover.__endValue, 0.1);
   }
 }
 

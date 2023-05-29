@@ -558,12 +558,12 @@ function hmrAccept(bundle, id) {
 
 },{}],"8lqZg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _three = require("three");
 var _gsap = require("gsap");
 var _gsapDefault = parcelHelpers.interopDefault(_gsap);
 var _smoothScrollbar = require("smooth-scrollbar");
 var _smoothScrollbarDefault = parcelHelpers.interopDefault(_smoothScrollbar);
 var _scrollTrigger = require("gsap/ScrollTrigger");
+var _three = require("three");
 const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
@@ -572,7 +572,7 @@ const raycaster = new (0, _three.Raycaster)();
 const pointer = new (0, _three.Vector2)();
 init();
 function init() {
-    scrollInit();
+    initScroller();
     bindResizeEvents();
     world.renderer = new (0, _three.WebGLRenderer)({
         canvas,
@@ -580,7 +580,7 @@ function init() {
     });
     world.renderer.setSize(canvasRect.width, canvasRect.height, false);
     world.renderer.setPixelRatio(window.devicePixelRatio);
-    world.renderer.setClearColor(0x000000, 0.0);
+    world.renderer.setClearColor(0x000000, 0);
     world.scene = new (0, _three.Scene)();
     const cameraWidth = canvasRect.width;
     const cameraHeight = canvasRect.height;
@@ -603,29 +603,29 @@ function init() {
         // });
         const material = new (0, _three.ShaderMaterial)({
             vertexShader: `
-      varying vec2 vUv;
+        varying vec2 vUv;
 
-      void main() {
+        void main() {
           vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
         }
-        `,
+      `,
             fragmentShader: `
-      varying vec2 vUv;
-      uniform vec2 uMouse;
-      uniform float uHover;
+        varying vec2 vUv;
+        uniform vec2 uMouse;
+        uniform float uHover;
 
-      void main() {
-        vec2 mouse = step(uMouse, vUv);
-        gl_FragColor = vec4(mouse, uHover, 1.);
-      }
+        void main() {
+          vec2 mouse = step(uMouse, vUv);
+          gl_FragColor = vec4(mouse, uHover, 1.);
+        }
       `,
             uniforms: {
                 uMouse: {
                     value: new (0, _three.Vector2)(0.5, 0.5)
                 },
                 uHover: {
-                    valeu: 0
+                    value: 0
                 }
             }
         });
@@ -635,9 +635,9 @@ function init() {
         mesh.position.x = x;
         mesh.position.y = y;
         const o = {
+            mesh,
             geometry,
             material,
-            mesh,
             rect,
             $: {
                 el
@@ -649,9 +649,9 @@ function init() {
     render();
     function render() {
         requestAnimationFrame(render);
-        os.forEach((o)=>{
-            scroll(o);
-        });
+        // スクロール処理
+        os.forEach((o)=>scroll(o));
+        // レイキャスティング
         raycast();
         world.renderer.render(world.scene, world.camera);
     }
@@ -669,7 +669,7 @@ function resize(o, newCanvasRect) {
     const { x , y  } = getWorldPosition(nextRect, newCanvasRect);
     mesh.position.x = x;
     mesh.position.y = y;
-    //大きさの変更
+    // 大きさの変更
     geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
     o.rect = nextRect;
 }
@@ -681,7 +681,7 @@ function getWorldPosition(rect, canvasRect) {
         y
     };
 }
-function scrollInit() {
+function initScroller() {
     (0, _gsapDefault.default).registerPlugin((0, _scrollTrigger.ScrollTrigger));
     const pageContainer = document.querySelector("#page-container");
     const scrollBar = (0, _smoothScrollbarDefault.default).init(pageContainer, {
@@ -708,9 +708,9 @@ function bindResizeEvents() {
             const newCanvasRect = canvas.getBoundingClientRect();
             // canvasサイズの変更
             world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
-            // meshの位置の再計算
+            // meshの位置とサイズの変更
             os.forEach((o)=>resize(o, newCanvasRect));
-            // cameraの位置の再計算
+            // cameraのProjectionMatrixの変更
             const cameraWidth = newCanvasRect.width;
             const cameraHeight = newCanvasRect.height;
             const near = 1500;
@@ -746,16 +746,54 @@ function raycast() {
             _mesh.material.uniforms.uMouse.value = intersect.uv;
             uHover.__endValue = 1;
         } else uHover.__endValue = 0;
-        uHover.value = lerp(uHover.value, uHover.__endValue, 0.1);
+        uHover.value = lerp(uHover.value, uHover.__endValue, .1);
     }
 }
-//線形補完
+// 線形補間
 function lerp(a, b, n) {
     let current = (1 - n) * a + n * b;
     if (Math.abs(b - current) < 0.001) current = b;
     return current;
 }
-window.addEventListener("pointermove", onPointerMove);
+window.addEventListener("pointermove", onPointerMove); /**
+ * Raycasting
+ * https://threejs.org/docs/#api/en/core/Raycaster
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+function render() {
+
+	// update the picking ray with the camera and pointer position
+	raycaster.setFromCamera( pointer, camera );
+
+	// calculate objects intersecting the picking ray
+	const intersects = raycaster.intersectObjects( scene.children );
+
+	for ( let i = 0; i < intersects.length; i ++ ) {
+
+		intersects[ i ].object.material.color.set( 0xff0000 );
+
+	}
+
+	renderer.render( scene, camera );
+
+}
+
+window.addEventListener( 'pointermove', onPointerMove );
+
+window.requestAnimationFrame(render);
+ */ 
 
 },{"three":"ktPTu","gsap":"juX9Y","smooth-scrollbar":"7azJf","gsap/ScrollTrigger":"hMdCG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**

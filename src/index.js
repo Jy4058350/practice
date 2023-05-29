@@ -1,31 +1,32 @@
-import {
-  BoxGeometry,
-  Mesh,
-  MeshBasicMaterial,
-  PerspectiveCamera,
-  PlaneGeometry,
-  Scene,
-  WebGLRenderer,
-  Raycaster,
-  Vector2,
-  ShaderMaterial,
-} from "three";
+
 
 import gsap from "gsap";
 import Scrollbar from "smooth-scrollbar";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  WebGLRenderer,
+  Scene,
+  PerspectiveCamera,
+  PlaneGeometry,
+  MeshBasicMaterial,
+  ShaderMaterial,
+  Mesh,
+  Raycaster,
+  Vector2,
+} from "three";
 
 const world = {};
 const os = [];
 const canvas = document.querySelector("#canvas");
 const canvasRect = canvas.getBoundingClientRect();
+
 const raycaster = new Raycaster();
 const pointer = new Vector2();
 
 init();
 function init() {
-  scrollInit();
-  bindResizeEvent();
+  initScroller();
+  bindResizeEvents();
 
   world.renderer = new WebGLRenderer({
     canvas,
@@ -33,7 +34,7 @@ function init() {
   });
   world.renderer.setSize(canvasRect.width, canvasRect.height, false);
   world.renderer.setPixelRatio(window.devicePixelRatio);
-  world.renderer.setClearColor(0x000000, 0.0);
+  world.renderer.setClearColor(0x000000, 0);
 
   world.scene = new Scene();
 
@@ -60,29 +61,28 @@ function init() {
     // });
     const material = new ShaderMaterial({
       vertexShader: `
-      varying vec2 vUv;
+        varying vec2 vUv;
 
-      void main() {
+        void main() {
           vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
         }
-        `,
+      `,
       fragmentShader: `
-      varying vec2 vUv;
-      uniform vec2 uMouse;
-      uniform float uHover;
+        varying vec2 vUv;
+        uniform vec2 uMouse;
+        uniform float uHover;
 
-      void main() {
-        vec2 mouse = step(uMouse, vUv);
-        gl_FragColor = vec4(mouse, uHover, 1.);
-      }
+        void main() {
+          vec2 mouse = step(uMouse, vUv);
+          gl_FragColor = vec4(mouse, uHover, 1.);
+        }
       `,
       uniforms: {
-        uMouse: { value: new Vector2(0.5, 0.5) },
-        uHover: { valeu: 0 },
-      },
-    });
-
+        uMouse: { value: new Vector2(0.5,0.5) },
+        uHover: { value: 0 }
+      }
+    })
     const mesh = new Mesh(geometry, material);
     mesh.position.z = 0;
 
@@ -91,9 +91,9 @@ function init() {
     mesh.position.y = y;
 
     const o = {
+      mesh,
       geometry,
       material,
-      mesh,
       rect,
       $: {
         el,
@@ -107,10 +107,12 @@ function init() {
   render();
   function render() {
     requestAnimationFrame(render);
-    os.forEach((o) => {
-      scroll(o);
-    });
+    // スクロール処理
+    os.forEach((o) => scroll(o));
+
+    // レイキャスティング
     raycast();
+
     world.renderer.render(world.scene, world.camera);
   }
 }
@@ -122,7 +124,6 @@ function scroll(o) {
   } = o;
   const rect = el.getBoundingClientRect();
   const { x, y } = getWorldPosition(rect, canvasRect);
-  // console.log(rect.top, y);
   // mesh.position.x = x;
   mesh.position.y = y;
 }
@@ -139,7 +140,7 @@ function resize(o, newCanvasRect) {
   mesh.position.x = x;
   mesh.position.y = y;
 
-  //大きさの変更
+  // 大きさの変更
   geometry.scale(nextRect.width / rect.width, nextRect.height / rect.height, 1);
 
   o.rect = nextRect;
@@ -151,14 +152,12 @@ function getWorldPosition(rect, canvasRect) {
   return { x, y };
 }
 
-function scrollInit() {
+function initScroller() {
   gsap.registerPlugin(ScrollTrigger);
 
   const pageContainer = document.querySelector("#page-container");
 
-  const scrollBar = Scrollbar.init(pageContainer, {
-    delegateTo: document,
-  });
+  const scrollBar = Scrollbar.init(pageContainer, { delegateTo: document });
 
   ScrollTrigger.scrollerProxy(pageContainer, {
     scrollTop(value) {
@@ -168,13 +167,8 @@ function scrollInit() {
       return scrollBar.scrollTop; // getter
     },
     // getBoundingClientRect() {
-    //   return {
-    //     top: 0,
-    //     left: 0,
-    //     width: window.innerWidth,
-    //     height: window.innerHeight,
-    //   };
-    // },
+    //   return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
+    // }
   });
 
   scrollBar.addListener(ScrollTrigger.update);
@@ -186,19 +180,23 @@ function scrollInit() {
   const el = document.querySelector("[data-webgl]");
 }
 
-function bindResizeEvent() {
+function bindResizeEvents() {
   let timerId = null;
+
   window.addEventListener("resize", () => {
     clearTimeout(timerId);
     timerId = setTimeout(() => {
       console.log("resize");
 
       const newCanvasRect = canvas.getBoundingClientRect();
+
       // canvasサイズの変更
       world.renderer.setSize(newCanvasRect.width, newCanvasRect.height, false);
-      // meshの位置の再計算
+
+      // meshの位置とサイズの変更
       os.forEach((o) => resize(o, newCanvasRect));
-      // cameraの位置の再計算
+
+      // cameraのProjectionMatrixの変更
       const cameraWidth = newCanvasRect.width;
       const cameraHeight = newCanvasRect.height;
       const near = 1500;
@@ -217,43 +215,87 @@ function bindResizeEvent() {
   });
 }
 
-function onPointerMove(event) {
-  // calculate pointer position in normalized device coordinates
-  // (-1 to +1) for both components
 
-  // ⭐️説明部分
-  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
 }
 
 function raycast() {
-  // update the picking ray with the camera and pointer position
-  raycaster.setFromCamera(pointer, world.camera);
 
-  // calculate objects intersecting the picking ray
-  const intersects = raycaster.intersectObjects(world.scene.children);
+	// update the picking ray with the camera and pointer position
+	raycaster.setFromCamera( pointer, world.camera );
+
+	// calculate objects intersecting the picking ray
+	const intersects = raycaster.intersectObjects( world.scene.children );
   const intersect = intersects[0];
-
-  for (let i = 0; i < world.scene.children.length; i++) {
+  
+	for ( let i = 0; i < world.scene.children.length; i ++ ) {
     const _mesh = world.scene.children[i];
 
     const uHover = _mesh.material.uniforms.uHover;
-    if (intersect?.object === _mesh) {
+    if(intersect?.object === _mesh) {
       _mesh.material.uniforms.uMouse.value = intersect.uv;
       uHover.__endValue = 1;
     } else {
       uHover.__endValue = 0;
     }
 
-    uHover.value = lerp(uHover.value, uHover.__endValue, 0.01);
-  }
+    uHover.value = lerp(uHover.value, uHover.__endValue, .1);
+	}
 }
 
-//線形補完
+// 線形補間
 function lerp(a, b, n) {
   let current = (1 - n) * a + n * b;
   if(Math.abs(b - current) < 0.001) current = b;
   return current;
 }
 
-window.addEventListener("pointermove", onPointerMove); //mousemoveの上位互換
+window.addEventListener( 'pointermove', onPointerMove );
+
+/**
+ * Raycasting
+ * https://threejs.org/docs/#api/en/core/Raycaster
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+function render() {
+
+	// update the picking ray with the camera and pointer position
+	raycaster.setFromCamera( pointer, camera );
+
+	// calculate objects intersecting the picking ray
+	const intersects = raycaster.intersectObjects( scene.children );
+
+	for ( let i = 0; i < intersects.length; i ++ ) {
+
+		intersects[ i ].object.material.color.set( 0xff0000 );
+
+	}
+
+	renderer.render( scene, camera );
+
+}
+
+window.addEventListener( 'pointermove', onPointerMove );
+
+window.requestAnimationFrame(render);
+ */
